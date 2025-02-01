@@ -9,7 +9,7 @@
     </style>
 </head>
 <body>
-    <h1>Your Name - GIS Portfolio</h1>
+    <h1>Kyle Krumm - GIS Portfolio</h1>
     <p>Welcome to my portfolio! Here you'll find projects showcasing my skills in spatial analysis, remote sensing, and GIS development.</p>
 
     <div class="project">
