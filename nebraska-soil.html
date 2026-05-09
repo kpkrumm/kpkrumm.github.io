@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nebraska Soil Chemistry — Kyle Krumm</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #111110;
+      --bg-2: #1A1A18;
+      --bg-3: #222220;
+      --ink: #E8E6DF;
+      --ink-muted: #8A8880;
+      --ink-faint: #3D3D3A;
+      --accent: #7EB89A;
+      --accent-dim: #1E3028;
+      --border: rgba(232,230,223,0.08);
+      --border-mid: rgba(232,230,223,0.14);
+      --font-display: 'DM Serif Display', serif;
+      --font-body: 'DM Sans', sans-serif;
+      --font-mono: 'DM Mono', monospace;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--ink);
+      min-height: 100vh;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 3rem;
+      border-bottom: 0.5px solid var(--border);
+      position: sticky;
+      top: 0;
+      background: var(--bg);
+      z-index: 10;
+    }
+
+    .nav-name {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-weight: 400;
+      letter-spacing: 0.04em;
+      color: var(--ink);
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 13px;
+      color: var(--ink-muted);
+      text-decoration: none;
+      letter-spacing: 0.03em;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--ink); }
+
+    /* HERO */
+    .project-hero {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 5rem 3rem 4rem;
+      border-bottom: 0.5px solid var(--border);
+    }
+
+    .breadcrumb {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      color: var(--ink-faint);
+      text-transform: uppercase;
+      margin-bottom: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .breadcrumb a {
+      color: var(--ink-faint);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .breadcrumb a:hover { color: var(--accent); }
+
+    .project-type {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .project-type::before {
+      content: '';
+      display: inline-block;
+      width: 20px;
+      height: 1px;
+      background: var(--accent);
+    }
+
+    .project-hero h1 {
+      font-family: var(--font-display);
+      font-size: 3rem;
+      line-height: 1.1;
+      font-weight: 400;
+      color: var(--ink);
+      margin-bottom: 1.5rem;
+      max-width: 680px;
+    }
+
+    .project-hero h1 em {
+      font-style: italic;
+      color: var(--ink-muted);
+    }
+
+    .project-hero-meta {
+      display: flex;
+      gap: 2.5rem;
+      margin-top: 2.5rem;
+      padding-top: 2rem;
+      border-top: 0.5px solid var(--border);
+      flex-wrap: wrap;
+    }
+
+    .meta-label {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+      margin-bottom: 0.35rem;
+    }
+
+    .meta-value {
+      font-size: 13px;
+      color: var(--ink-muted);
+    }
+
+    .meta-tags { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-top: 0.35rem; }
+
+    .tag {
+      font-size: 10px;
+      font-family: var(--font-mono);
+      color: var(--ink-muted);
+      border: 0.5px solid var(--border-mid);
+      padding: 2px 8px;
+      border-radius: 2px;
+    }
+
+    .hero-links {
+      display: flex;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .btn-primary {
+      background: var(--ink);
+      color: var(--bg);
+      border: none;
+      padding: 0.65rem 1.5rem;
+      font-family: var(--font-body);
+      font-size: 13px;
+      cursor: pointer;
+      letter-spacing: 0.03em;
+      transition: background 0.2s;
+      border-radius: 2px;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .btn-primary:hover { background: var(--accent); color: var(--bg); }
+
+    .btn-ghost {
+      background: none;
+      border: 0.5px solid var(--border-mid);
+      color: var(--ink-muted);
+      padding: 0.65rem 1.5rem;
+      font-family: var(--font-body);
+      font-size: 13px;
+      cursor: pointer;
+      letter-spacing: 0.03em;
+      transition: all 0.2s;
+      border-radius: 2px;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .btn-ghost:hover { border-color: var(--ink-muted); color: var(--ink); }
+
+    /* CONTENT */
+    .content-section {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 4rem 3rem;
+      border-bottom: 0.5px solid var(--border);
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: 4rem;
+    }
+
+    .section-label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-muted);
+      padding-top: 0.2rem;
+    }
+
+    .section-body h2 {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      font-weight: 400;
+      color: var(--ink);
+      margin-bottom: 1.25rem;
+      line-height: 1.2;
+    }
+
+    .section-body h2 em {
+      font-style: italic;
+      color: var(--ink-muted);
+    }
+
+    .section-body p {
+      font-size: 15px;
+      color: var(--ink-muted);
+      line-height: 1.8;
+      margin-bottom: 1.25rem;
+      max-width: 620px;
+    }
+
+    .section-body p strong { color: var(--ink); font-weight: 500; }
+    .section-body p:last-child { margin-bottom: 0; }
+
+    /* STAT STRIP */
+    .stat-strip {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 3rem;
+      border-bottom: 0.5px solid var(--border);
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    .stat-item {
+      padding: 0 2rem 0 0;
+      border-right: 0.5px solid var(--border);
+    }
+
+    .stat-item:first-child { padding-left: 0; }
+    .stat-item:last-child { border-right: none; padding-right: 0; }
+
+    .stat-num {
+      font-family: var(--font-display);
+      font-size: 2.25rem;
+      line-height: 1;
+      color: var(--ink);
+      margin-bottom: 0.35rem;
+    }
+
+    .stat-num em { font-style: italic; color: var(--accent); }
+
+    .stat-label {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+      line-height: 1.4;
+    }
+
+    /* FINDINGS */
+    .findings-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5px;
+      background: var(--border);
+      border: 0.5px solid var(--border);
+      margin-top: 2rem;
+    }
+
+    .finding-card {
+      background: var(--bg);
+      padding: 1.75rem;
+    }
+
+    .finding-num {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      color: var(--accent);
+      margin-bottom: 0.75rem;
+    }
+
+    .finding-title {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-weight: 400;
+      color: var(--ink);
+      margin-bottom: 0.6rem;
+      line-height: 1.3;
+    }
+
+    .finding-body {
+      font-size: 13px;
+      color: var(--ink-muted);
+      line-height: 1.7;
+    }
+
+    /* MAP */
+    .map-container {
+      margin-top: 2rem;
+      border: 0.5px solid var(--border);
+      border-radius: 2px;
+      overflow: hidden;
+      background: var(--bg-2);
+    }
+
+    .map-container iframe {
+      width: 100%;
+      height: 480px;
+      border: none;
+      display: block;
+    }
+
+    .map-caption {
+      padding: 0.75rem 1rem;
+      border-top: 0.5px solid var(--border);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--ink-faint);
+      letter-spacing: 0.04em;
+    }
+
+    /* IMAGE GRID */
+    .image-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5px;
+      background: var(--border);
+      border: 0.5px solid var(--border);
+      margin-top: 2rem;
+    }
+
+    .image-grid.single { grid-template-columns: 1fr; }
+
+    .image-item { background: var(--bg-2); overflow: hidden; }
+
+    .image-item img {
+      width: 100%;
+      height: 260px;
+      object-fit: cover;
+      display: block;
+      opacity: 0.9;
+      transition: opacity 0.3s;
+    }
+
+    .image-item img:hover { opacity: 1; }
+
+    .image-caption {
+      padding: 0.6rem 0.9rem;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--ink-faint);
+      letter-spacing: 0.04em;
+      border-top: 0.5px solid var(--border);
+    }
+
+    /* LIMITATIONS */
+    .limitations-list {
+      margin-top: 1.25rem;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .limitation-row {
+      display: flex;
+      gap: 1.5rem;
+      padding: 1rem 0;
+      border-bottom: 0.5px solid var(--border);
+      align-items: flex-start;
+    }
+
+    .limitation-row:first-child { border-top: 0.5px solid var(--border); }
+
+    .limitation-tag {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      white-space: nowrap;
+      padding-top: 0.15rem;
+      min-width: 90px;
+    }
+
+    .limitation-text {
+      font-size: 13px;
+      color: var(--ink-muted);
+      line-height: 1.7;
+      max-width: 520px;
+    }
+
+    /* NEXT */
+    .next-strip {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    .next-label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+      margin-bottom: 0.5rem;
+    }
+
+    .next-title {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      font-weight: 400;
+      color: var(--ink-muted);
+      transition: color 0.2s;
+    }
+
+    .next-link {
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .next-link:hover .next-title { color: var(--ink); }
+
+    .next-back-label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--ink-faint);
+      letter-spacing: 0.06em;
+      transition: color 0.2s;
+    }
+
+    .next-arrow {
+      font-size: 1.25rem;
+      color: var(--ink-faint);
+      transition: all 0.2s;
+    }
+
+    .next-link:hover .next-back-label,
+    .next-link:hover .next-arrow { color: var(--ink); }
+    .next-link:hover .next-arrow { transform: translateX(4px); }
+
+    footer {
+      border-top: 0.5px solid var(--border);
+      padding: 2rem 3rem;
+      max-width: 960px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-name { font-family: var(--font-mono); font-size: 11px; color: var(--ink-faint); letter-spacing: 0.06em; }
+    .footer-copy { font-family: var(--font-mono); font-size: 11px; color: var(--ink-faint); }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-name">Kyle Krumm</a>
+  <ul class="nav-links">
+    <li><a href="index.html#work">Work</a></li>
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="mailto:kpkrumm@gmail.com">Contact</a></li>
+    <li><a href="https://github.com/kpkrumm" target="_blank">GitHub</a></li>
+  </ul>
+</nav>
+
+<section class="project-hero">
+  <div class="breadcrumb">
+    <a href="index.html">Work</a>
+    <span>—</span>
+    <span>Nebraska Soil Chemistry</span>
+  </div>
+  <div class="project-type">Python · Spatial Analysis</div>
+  <h1>Nebraska Soil pH<br>&amp; <em>Organic Matter</em></h1>
+  <div class="project-hero-meta">
+    <div class="meta-item">
+      <div class="meta-label">Data Sources</div>
+      <div class="meta-value">USDA SSURGO, NCSS Lab Data Mart, Census TIGER</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label">Stack</div>
+      <div class="meta-tags">
+        <span class="tag">Python</span>
+        <span class="tag">GeoPandas</span>
+        <span class="tag">scipy</span>
+        <span class="tag">libpysal</span>
+        <span class="tag">folium</span>
+        <span class="tag">matplotlib</span>
+      </div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label">Coverage</div>
+      <div class="meta-value">92 of 93 Nebraska counties</div>
+    </div>
+  </div>
+  <div class="hero-links">
+    <a href="nebraska_soil_interactive.html" target="_blank" class="btn-primary">View interactive map</a>
+    <a href="https://github.com/kpkrumm/nebraska-soil-analysis" target="_blank" class="btn-ghost">GitHub →</a>
+  </div>
+</section>
+
+<!-- OVERVIEW -->
+<section class="content-section">
+  <div class="section-label">Overview</div>
+  <div class="section-body">
+    <h2>Why this <em>project</em></h2>
+    <p>
+      I built this as my first Python-based GIS project for a few reasons. Practically, I wanted to move beyond Esri products and build something reproducible end-to-end in Python — querying live APIs, doing the analysis, and publishing the output to GitHub. But the subject matter was deliberate too.
+    </p>
+    <p>
+      I have a B.S. in Chemistry and an M.S. in Geography, and soil chemistry sits at the intersection of both. I've also always been interested in how human activity — farming, livestock, land use — has measurable effects on environmental health and, downstream, on human health and economic output. This project isn't about pollution directly, but it establishes a baseline: what does Nebraska soil actually look like, chemically, before you layer anything else on top of it. The next projects in this series build from here.
+    </p>
+    <p>
+      I moved to Nebraska recently, which made the state a natural starting point. It also turned out to be a genuinely interesting case — Nebraska spans a major environmental transition from the Great Plains to the Rocky Mountain foothills, which drives real variation in soil chemistry worth analyzing.
+    </p>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stat-strip">
+  <div class="stat-item">
+    <div class="stat-num">92</div>
+    <div class="stat-label">Counties with pH data</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">2,305</div>
+    <div class="stat-label">NCSS pedon sampling sites</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">16</div>
+    <div class="stat-label">USDA land resource areas</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num"><em>0.78</em></div>
+    <div class="stat-label">Moran's I — pH spatial clustering</div>
+  </div>
+</div>
+
+<!-- METHODS -->
+<section class="content-section">
+  <div class="section-label">Methods</div>
+  <div class="section-body">
+    <h2>Data &amp; <em>approach</em></h2>
+    <p>
+      Soil chemistry data was pulled from the <strong>USDA SSURGO database</strong> via the Soil Data Access REST API — a SQL-queryable interface that returns horizon-level measurements for every mapped soil component in Nebraska. pH and organic matter values were aggregated to the county level using component-weighted averages, where each soil component's contribution is weighted by its coverage percentage within the map unit.
+    </p>
+    <p>
+      County boundaries came from the <strong>Census TIGER/Line dataset</strong>, loaded directly via URL to keep the notebook fully reproducible without local shapefiles. USDA Major Land Resource Area (MLRA) boundaries were fetched from the NRCS ArcGIS Feature Service and clipped to Nebraska — 16 MLRAs in total, spanning Land Resource Regions F, G, H, and M. Each county was assigned its dominant MLRA by area-weighted spatial overlay.
+    </p>
+    <p>
+      Physical sampling site locations came from the <strong>NCSS Lab Data Mart GeoPackage</strong> — a separate dataset from SSURGO, representing actual pedon sampling points rather than modeled soil series data. These were used to map sampling density across counties only, not to derive chemistry values.
+    </p>
+    <p>
+      Statistical analysis included Pearson correlation, OLS linear regression, Moran's I spatial autocorrelation using Queen contiguity weights, one-way ANOVA, and Tukey's HSD post-hoc test for pairwise MLRA comparisons.
+    </p>
+  </div>
+</section>
+
+<!-- MAP EMBED -->
+<div style="max-width: 960px; margin: 0 auto; padding: 0 3rem 4rem; border-bottom: 0.5px solid var(--border);">
+  <div class="map-container">
+    <iframe src="nebraska_soil_interactive.html" title="Interactive Nebraska Soil pH Map"></iframe>
+    <div class="map-caption">Interactive choropleth — hover any county for weighted average pH and organic matter. Built with Folium / Leaflet.</div>
+  </div>
+</div>
+
+<!-- FINDINGS -->
+<section class="content-section">
+  <div class="section-label">Findings</div>
+  <div class="section-body">
+    <h2>What the <em>data showed</em></h2>
+    <p>
+      The clearest result was the east-west pH gradient — alkaline soils in the western Panhandle, more neutral to mildly acidic conditions in the east. Moran's I for pH came back at 0.78 (p = 0.001), confirming the pattern is geographically coherent and not noise. The mechanism is well understood: higher precipitation in eastern Nebraska leaches carbonates from the soil profile over time, driving pH down. ANOVA confirmed significant pH differences across all 16 MLRAs (F = 15.8, p &lt; 0.001), with 26 significant pairwise differences in the Tukey HSD results.
+    </p>
+    <p>
+      The organic matter results were more interesting. I expected the Sandhills counties to fall somewhere in the middle of the distribution. Instead, they showed the highest organic matter percentages in the state — Arthur County averaged around 8.6% OM, well above the statewide range for agricultural counties. The Sandhills are native prairie, largely untilled, which explains the accumulation. All six statistically significant Tukey HSD pairs for organic matter involved Sandhills MLRAs. Outside that region, OM differences between land resource areas were largely not significant.
+    </p>
+    <div class="findings-grid">
+      <div class="finding-card">
+        <div class="finding-num">01</div>
+        <div class="finding-title">Strong east-west pH gradient</div>
+        <div class="finding-body">Alkaline soils dominate the western Panhandle; more acidic conditions in the east. Driven by precipitation differences and carbonate leaching. ANOVA confirmed significant differences across all 16 MLRAs (F = 15.8, p &lt; 0.001).</div>
+      </div>
+      <div class="finding-card">
+        <div class="finding-num">02</div>
+        <div class="finding-title">Sandhills as organic matter outliers</div>
+        <div class="finding-body">Central Nebraska's Sandhills counties — native prairie, minimal tillage — showed the highest OM in the state. Arthur County averaged ~8.6%. All 6 significant Tukey HSD pairs for OM involved Sandhills MLRAs.</div>
+      </div>
+      <div class="finding-card">
+        <div class="finding-num">03</div>
+        <div class="finding-title">Weak pH–OM correlation</div>
+        <div class="finding-body">Pearson r = −0.20 (p = 0.056). Borderline significant and practically weak — pH explains only about 4% of OM variance at the county level. The relationship exists in the expected direction, but something else is driving most of the variation.</div>
+      </div>
+      <div class="finding-card">
+        <div class="finding-num">04</div>
+        <div class="finding-title">Strong spatial clustering in both variables</div>
+        <div class="finding-body">Moran's I: pH = 0.78, OM = 0.55 (both p = 0.001). This level of autocorrelation means standard significance tests are likely anti-conservative — the effective sample size is smaller than 92 counties would suggest.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- IMAGES -->
+<div style="max-width: 960px; margin: 0 auto; padding: 0 3rem 4rem; border-bottom: 0.5px solid var(--border);">
+  <div class="image-grid">
+    <div class="image-item">
+      <img src="nebraska_soil_ph_om.png" alt="Two-panel choropleth of soil pH and organic matter by county" />
+      <div class="image-caption">Soil pH (left) and organic matter (right) by county — natural breaks, k=8</div>
+    </div>
+    <div class="image-item">
+      <img src="nebraska_ph_om_scatter.png" alt="Scatter plot of pH vs organic matter by MLRA" />
+      <div class="image-caption">pH vs. organic matter by county, colored by dominant MLRA — full and zoomed views</div>
+    </div>
+  </div>
+  <div class="image-grid single" style="margin-top: 1.5px;">
+    <div class="image-item">
+      <img src="nebraska_sampling_sites.png" alt="NCSS sampling site density map" style="height: 320px;" />
+      <div class="image-caption">NCSS pedon sampling site density — sparse (≤5), marginal (6–10), adequate (&gt;10) sites per county</div>
+    </div>
+  </div>
+</div>
+
+<!-- LIMITATIONS -->
+<section class="content-section">
+  <div class="section-label">Limitations</div>
+  <div class="section-body">
+    <h2>What I'm <em>not sure about</em></h2>
+    <p>A few things I'd want to interrogate further before drawing stronger conclusions:</p>
+    <div class="limitations-list">
+      <div class="limitation-row">
+        <div class="limitation-tag">Spatial stats</div>
+        <div class="limitation-text">The Pearson correlation and regression p-values (both 0.056) should be interpreted carefully. A Moran's I of 0.78 for pH means neighboring counties are highly similar — the data has far less independent information than 92 observations implies. The borderline significance may be an artifact of spatial autocorrelation rather than a real signal.</div>
+      </div>
+      <div class="limitation-row">
+        <div class="limitation-tag">Scale</div>
+        <div class="limitation-text">Aggregating to the county level smooths over a lot of within-county variation. Nebraska counties are large, and soil chemistry can shift substantially over short distances. A finer spatial unit — map unit or watershed — would likely reveal patterns that county averages obscure.</div>
+      </div>
+      <div class="limitation-row">
+        <div class="limitation-tag">Other drivers</div>
+        <div class="limitation-text">pH explains 4% of OM variance. The other 96% is coming from somewhere — land use, vegetation cover, soil parent material, precipitation, temperature. My best guess is parent material plays a significant role given Nebraska's east-west environmental transition, but that's speculative. Further research needed.</div>
+      </div>
+      <div class="limitation-row">
+        <div class="limitation-tag">Data sources</div>
+        <div class="limitation-text">SSURGO data is modeled from soil series correlations, not direct measurements for every polygon. Seven counties had zero NCSS pedon sampling sites — their values are entirely model-derived. It's also worth noting that the NCSS pedon dataset and SSURGO are separate sources and can't be used to validate one another directly.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NEXT -->
+<div class="next-strip">
+  <div>
+    <div class="next-label">Next project</div>
+    <div class="next-title">Groundwater Nitrate &amp; Livestock Density — coming soon</div>
+  </div>
+  <a href="index.html" class="next-link">
+    <span class="next-back-label">Back to work</span>
+    <span class="next-arrow">→</span>
+  </a>
+</div>
+
+<footer>
+  <span class="footer-name">Kyle Krumm — Geospatial Analyst & Developer</span>
+  <span class="footer-copy">2026</span>
+</footer>
+
+</body>
+</html>
