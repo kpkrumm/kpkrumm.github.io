@@ -223,20 +223,11 @@
 
     .section-label {
       font-family: var(--font-mono);
-      font-size: 11px;
-      letter-spacing: 0.1em;
+      font-size: 13px;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
       color: var(--ink-muted);
-      padding-top: 0.2rem;
-    }
-
-    .section-body h2 {
-      font-family: var(--font-display);
-      font-size: 1.6rem;
-      font-weight: 400;
-      color: var(--ink);
-      margin-bottom: 1.25rem;
-      line-height: 1.2;
+      padding-top: 0.35rem;
     }
 
     .section-body p {
@@ -256,7 +247,7 @@
       padding: 3rem;
       border-bottom: 0.5px solid var(--border);
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(3, 1fr);
     }
 
     .stat-item {
@@ -274,8 +265,6 @@
       color: var(--ink);
       margin-bottom: 0.35rem;
     }
-
-    .stat-num.accent { color: var(--accent); }
 
     .stat-label {
       font-family: var(--font-mono);
@@ -343,7 +332,7 @@
       border-top: 0.5px solid var(--border);
       font-family: var(--font-mono);
       font-size: 11px;
-      color: var(--ink-faint);
+      color: var(--ink-muted);
       letter-spacing: 0.04em;
     }
 
@@ -379,9 +368,49 @@
       padding: 0.6rem 0.9rem;
       font-family: var(--font-mono);
       font-size: 10px;
-      color: var(--ink-faint);
+      color: var(--ink-muted);
       letter-spacing: 0.04em;
       border-top: 0.5px solid var(--border);
+    }
+
+    /* STATS TABLE */
+    .stats-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1.5rem;
+      font-size: 13px;
+    }
+
+    .stats-table th {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+      text-align: left;
+      padding: 0.5rem 1rem 0.5rem 0;
+      border-bottom: 0.5px solid var(--border-mid);
+      font-weight: 400;
+    }
+
+    .stats-table td {
+      color: var(--ink-muted);
+      padding: 0.6rem 1rem 0.6rem 0;
+      border-bottom: 0.5px solid var(--border);
+      vertical-align: top;
+      max-width: 200px;
+    }
+
+    .stats-table td.result {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--ink);
+    }
+
+    .stats-table td.sig {
+      color: var(--accent);
+      font-family: var(--font-mono);
+      font-size: 11px;
     }
 
     .limitations-list {
@@ -539,24 +568,30 @@
   </div>
 </section>
 
-<!-- OVERVIEW -->
+<!-- MOTIVATIONS -->
 <section class="content-section">
-  <div class="section-label">Overview</div>
+  <div class="section-label">Motivations</div>
   <div class="section-body">
-    <h2>Overview</h2>
-    <p>
-      This project maps county-level soil pH and organic matter across Nebraska, then examines whether and how the two variables relate to each other. Both are fundamental indicators of soil health, pH affects nutrient availability and microbial activity, while organic matter drives fertility, water retention, and carbon storage. Understanding their distribution and relationship across the state is a first step toward more targeted questions about land use, agricultural productivity, and environmental health.
-    </p>
     <p>
       I built this as my first end-to-end Python GIS project. I have a B.S. in Chemistry and an M.S. in Geography, and soil chemistry sits at the intersection of both. I've always been interested in how human activity, farming, livestock, land use, produces measurable effects on the environment and downstream on human health and economic output. This project isn't about pollution directly, but it establishes a baseline before layering anything else on top of it. The next projects in this series build from here toward questions about livestock density, groundwater nitrate, and crop yield.
     </p>
     <p>
-      Nebraska also turned out to be a genuinely interesting case. It spans a major environmental transition from the Great Plains in the east to the high plains and foothills in the west, which creates real variation in soil chemistry across a single state.
+      Nebraska was a natural starting point having recently moved here, and it turned out to be a genuinely interesting case. The state spans a major environmental transition from the Great Plains in the east to the high plains and foothills in the west, which drives real variation in soil chemistry across a single state worth analyzing.
     </p>
   </div>
 </section>
 
-<!-- STATS -->
+<!-- OVERVIEW -->
+<section class="content-section">
+  <div class="section-label">Overview</div>
+  <div class="section-body">
+    <p>
+      This project maps county-level soil pH and organic matter across Nebraska, then examines whether and how the two variables relate to each other. Both are fundamental indicators of soil health. pH affects nutrient availability and microbial activity, while organic matter drives fertility, water retention, and carbon storage. Understanding their distribution and relationship across the state is a first step toward more targeted questions about land use, agricultural productivity, and environmental health.
+    </p>
+  </div>
+</section>
+
+<!-- STAT STRIP -->
 <div class="stat-strip">
   <div class="stat-item">
     <div class="stat-num">92</div>
@@ -570,28 +605,23 @@
     <div class="stat-num">16</div>
     <div class="stat-label">USDA land resource areas</div>
   </div>
-  <div class="stat-item">
-    <div class="stat-num accent">0.78</div>
-    <div class="stat-label">Moran's I, pH spatial clustering</div>
-  </div>
 </div>
 
 <!-- METHODS -->
 <section class="content-section">
   <div class="section-label">Methods</div>
   <div class="section-body">
-    <h2>Methods</h2>
     <p>
       Soil chemistry data was queried from the USDA SSURGO database via the Soil Data Access REST API, a SQL-queryable interface that returns soil property measurements for every mapped soil component in Nebraska. pH and organic matter values were aggregated to the county level using component-weighted averages, where each soil component's contribution is weighted by its proportional coverage within the map unit. County boundaries came from the Census TIGER/Line dataset, loaded directly via URL to keep the notebook fully reproducible without local shapefiles.
     </p>
     <p>
-      USDA Major Land Resource Area (MLRA) boundaries were fetched from the NRCS ArcGIS Feature Service and clipped to Nebraska, covering 16 MLRAs across Land Resource Regions F, G, H, and M. MLRAs are federally defined regions of similar soils, climate, water resources, and land use, making them a more meaningful grouping unit for soil chemistry than arbitrary county boundaries. Each county was assigned its dominant MLRA by area-weighted spatial overlay.
+      USDA Major Land Resource Area (MLRA) boundaries were fetched from the NRCS ArcGIS Feature Service and clipped to Nebraska, covering 16 MLRAs. MLRAs are federally defined regions of similar soils, climate, water resources, and land use, making them a more meaningful grouping unit for soil chemistry than county boundaries alone. Nebraska falls within four Land Resource Regions: the Lake States and Central Great Plains (F), the Central Feed Grains and Livestock (G), the Central Great Plains Winter Wheat and Range (H), and the Central Feed Grains and Livestock region extending into the Corn Belt (M). Each county was assigned its dominant MLRA by area-weighted spatial overlay.
     </p>
     <p>
-      Physical soil sampling site locations came from the NCSS Lab Data Mart, a separate database from SSURGO that records actual pedon sampling points collected in the field by USDA scientists. These were included to give a sense of where direct measurements exist versus where SSURGO values are interpolated from soil series models. Seven Nebraska counties had zero pedon sampling sites on record.
+      Physical soil sampling site locations came from the NCSS Lab Data Mart, a separate database from SSURGO that records actual sampling points collected in the field by USDA scientists. These were included to show where direct measurements exist versus where SSURGO values are interpolated from soil series models. Seven Nebraska counties had zero sampling sites on record.
     </p>
     <p>
-      Statistical analysis included Pearson correlation, OLS linear regression, Moran's I spatial autocorrelation using Queen contiguity weights, one-way ANOVA, and Tukey's HSD post-hoc test for pairwise MLRA comparisons.
+      Statistical analysis included Pearson correlation, linear regression, Moran's I spatial autocorrelation using Queen contiguity weights, one-way ANOVA, and Tukey's HSD post-hoc test for pairwise MLRA comparisons.
     </p>
   </div>
 </section>
@@ -599,8 +629,8 @@
 <!-- MAP EMBED -->
 <div style="max-width: 960px; margin: 0 auto; padding: 0 3rem 4rem; border-bottom: 0.5px solid var(--border);">
   <div class="map-container">
-    <iframe src="nebraska_soil_interactive.html" title="Interactive Nebraska Soil pH Map"></iframe>
-    <div class="map-caption">Interactive choropleth, hover any county for weighted average pH and organic matter. Built with Folium / Leaflet.</div>
+    <iframe src="nebraska_soil_interactive.html" title="Interactive Nebraska Soil Chemistry Map"></iframe>
+    <div class="map-caption">Interactive choropleth map of average soil pH and organic matter %, hover any county for more info. Built with Folium / Leaflet.</div>
   </div>
 </div>
 
@@ -608,12 +638,11 @@
 <section class="content-section">
   <div class="section-label">Findings</div>
   <div class="section-body">
-    <h2>Findings</h2>
     <p>
       The clearest result was the east-west pH gradient, alkaline soils concentrated in the western Panhandle and more neutral to mildly acidic conditions in the east. Moran's I for pH came back at 0.78 (p = 0.001), confirming the pattern is spatially coherent rather than random noise. The mechanism is well established: higher precipitation in eastern Nebraska leaches carbonates from the soil profile over time, lowering pH. ANOVA confirmed significant pH differences across all 16 MLRAs (F = 15.8, p &lt; 0.001), with 26 significant pairwise differences in the Tukey HSD results.
     </p>
     <p>
-      The organic matter results were less expected. I anticipated that counties along Nebraska's major rivers, the Missouri and the Platte, would show elevated OM due to alluvial deposition and agricultural productivity. Instead, the highest organic matter values were concentrated in the Sandhills, a region of central Nebraska characterized by native grass prairie and minimal tillage. Arthur County averaged around 8.6% OM, well above the range for agricultural counties elsewhere in the state. The undisturbed prairie soil explains the accumulation. All six statistically significant Tukey HSD pairs for organic matter involved Sandhills MLRAs. Outside that region, OM differences between land resource areas were largely not significant.
+      The organic matter results were less expected. Counties along Nebraska's major rivers, the Missouri and the Platte, were expected to show elevated organic matter due to alluvial deposition and high agricultural productivity. Instead, the highest values were concentrated in the Sandhills, a region of central Nebraska characterized by native grass prairie and minimal tillage. Arthur County averaged around 8.6% OM, well above the range for agricultural counties elsewhere in the state. The undisturbed prairie soil explains the accumulation. All six statistically significant Tukey HSD pairs for organic matter involved Sandhills MLRAs. Outside that region, OM differences between land resource areas were largely not significant.
     </p>
     <div class="findings-grid">
       <div class="finding-card">
@@ -623,8 +652,8 @@
       </div>
       <div class="finding-card">
         <div class="finding-num">02</div>
-        <div class="finding-title">Sandhills as organic matter outliers</div>
-        <div class="finding-body">Central Nebraska's Sandhills counties, native prairie, minimal tillage, showed the highest OM in the state. Arthur County averaged ~8.6%. All 6 significant Tukey HSD pairs for OM involved Sandhills MLRAs.</div>
+        <div class="finding-title">Sandhills are organic matter outliers</div>
+        <div class="finding-body">Central Nebraska's Sandhills counties, native prairie with minimal tillage, showed the highest OM in the state. Arthur County averaged ~8.6%. All 6 significant Tukey HSD pairs for OM involved Sandhills MLRAs.</div>
       </div>
       <div class="finding-card">
         <div class="finding-num">03</div>
@@ -634,7 +663,7 @@
       <div class="finding-card">
         <div class="finding-num">04</div>
         <div class="finding-title">Strong spatial clustering in both variables</div>
-        <div class="finding-body">Moran's I: pH = 0.78, OM = 0.55 (both p = 0.001). This level of autocorrelation means standard significance tests are likely anti-conservative. The effective sample size is smaller than 92 counties would suggest.</div>
+        <div class="finding-body">Moran's I: pH = 0.78, OM = 0.55 (both p = 0.001). Neighboring counties tend to have similar values, meaning the data contains less truly independent information than 92 observations would suggest. Standard significance tests do not account for this and should be interpreted with caution.</div>
       </div>
     </div>
   </div>
@@ -660,16 +689,83 @@
   </div>
 </div>
 
+<!-- STATISTICAL RESULTS -->
+<section class="content-section">
+  <div class="section-label">Results</div>
+  <div class="section-body">
+    <p>Key statistical results from the analysis. R-squared (R²) measures the proportion of variance in organic matter explained by pH, where 1.0 would be a perfect fit and 0 would mean no relationship.</p>
+    <table class="stats-table">
+      <thead>
+        <tr>
+          <th>Test</th>
+          <th>Variable</th>
+          <th>Result</th>
+          <th>p-value</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Pearson correlation</td>
+          <td>pH vs. OM</td>
+          <td class="result">r = -0.20</td>
+          <td class="sig">0.056</td>
+        </tr>
+        <tr>
+          <td>Linear regression</td>
+          <td>OM ~ pH</td>
+          <td class="result">slope = -0.91, R² = 0.04</td>
+          <td class="sig">0.056</td>
+        </tr>
+        <tr>
+          <td>Moran's I</td>
+          <td>pH</td>
+          <td class="result">I = 0.78</td>
+          <td class="sig">0.001</td>
+        </tr>
+        <tr>
+          <td>Moran's I</td>
+          <td>Organic matter</td>
+          <td class="result">I = 0.55</td>
+          <td class="sig">0.001</td>
+        </tr>
+        <tr>
+          <td>One-way ANOVA</td>
+          <td>pH by MLRA</td>
+          <td class="result">F = 15.8</td>
+          <td class="sig">&lt;0.001</td>
+        </tr>
+        <tr>
+          <td>One-way ANOVA</td>
+          <td>OM by MLRA</td>
+          <td class="result">F = 3.6</td>
+          <td class="sig">0.0003</td>
+        </tr>
+        <tr>
+          <td>Tukey HSD</td>
+          <td>pH pairwise</td>
+          <td class="result">26 significant pairs</td>
+          <td class="sig">&lt;0.05</td>
+        </tr>
+        <tr>
+          <td>Tukey HSD</td>
+          <td>OM pairwise</td>
+          <td class="result">6 significant pairs</td>
+          <td class="sig">&lt;0.05</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
 <!-- LIMITATIONS -->
 <section class="content-section">
   <div class="section-label">Limitations</div>
   <div class="section-body">
-    <h2>Research Shortcomings</h2>
     <p>Several methodological constraints limit how far the findings can be extended and point toward areas requiring further study.</p>
     <div class="limitations-list">
       <div class="limitation-row">
         <div class="limitation-tag">Spatial stats</div>
-        <div class="limitation-text">The Pearson correlation and regression p-values (both 0.056) should be interpreted carefully. A Moran's I of 0.78 for pH means neighboring counties are highly similar, and the data has far less independent information than 92 observations would imply. The borderline significance may be an artifact of spatial autocorrelation rather than a real signal.</div>
+        <div class="limitation-text">The Pearson correlation and regression p-values (both 0.056) should be interpreted carefully. A Moran's I of 0.78 for pH means neighboring counties are highly similar, and the data has far less independent information than 92 observations would imply. The borderline significance may be a product of spatial autocorrelation rather than a real signal.</div>
       </div>
       <div class="limitation-row">
         <div class="limitation-tag">Scale</div>
@@ -681,7 +777,7 @@
       </div>
       <div class="limitation-row">
         <div class="limitation-tag">Data sources</div>
-        <div class="limitation-text">SSURGO values are modeled from soil series correlations rather than direct field measurements for every polygon. Seven counties had zero NCSS pedon sampling sites on record, meaning their SSURGO-derived values are entirely model-based. It is also worth noting that the NCSS pedon dataset and SSURGO are independent sources and cannot be used to validate one another directly.</div>
+        <div class="limitation-text">SSURGO values are modeled from soil series correlations rather than direct field measurements for every polygon. Seven counties had zero NCSS pedon sampling sites on record, meaning their SSURGO-derived values are entirely model-based. The NCSS pedon dataset and SSURGO are also independent sources and cannot be used to validate one another directly.</div>
       </div>
     </div>
   </div>
