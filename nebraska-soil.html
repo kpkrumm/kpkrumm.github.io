@@ -366,7 +366,7 @@
 
     .image-grid.single { grid-template-columns: 1fr; }
 
-    .image-item { background: var(--bg-2); overflow: hidden; }
+    .image-item { background: var(--bg-2); overflow: hidden; cursor:zoom-in;}
 
     .image-item img {
       width: 100%;
@@ -643,21 +643,35 @@
 <!-- IMAGES -->
 <div style="max-width: 960px; margin: 0 auto; padding: 0 3rem 4rem; border-bottom: 0.5px solid var(--border);">
   <div class="image-grid">
-    <div class="image-item">
+    <div class="image-item" onclick="openLightbox(this.querySelector('img').src)">
       <img src="nebraska_soil_ph_om.png" alt="Two-panel choropleth of soil pH and organic matter by county" />
       <div class="image-caption">Soil pH (left) and organic matter (right) by county — natural breaks, k=8</div>
     </div>
-    <div class="image-item">
+    <div class="image-item" onclick="openLightbox(this.querySelector('img').src)">
       <img src="nebraska_ph_om_scatter.png" alt="Scatter plot of pH vs organic matter by MLRA" />
       <div class="image-caption">pH vs. organic matter by county, colored by dominant MLRA — full and zoomed views</div>
     </div>
   </div>
   <div class="image-grid single" style="margin-top: 1.5px;">
-    <div class="image-item">
+    <div class="image-item" onclick="openLightbox(this.querySelector('img').src)">
       <img src="nebraska_sampling_sites.png" alt="NCSS sampling site density map" style="height: 320px;" />
       <div class="image-caption">NCSS pedon sampling site density — sparse (≤5), marginal (6–10), adequate (&gt;10) sites per county</div>
     </div>
   </div>
+</div>
+
+<!-- LIGHTBOX -->
+<div id="lightbox" onclick="closeLightbox()" style="
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.92);
+  z-index: 100;
+  align-items: center;
+  justify-content: center;
+  cursor: zoom-out;
+">
+  <img id="lightbox-img" src="" style="max-width: 92vw; max-height: 92vh; object-fit: contain; display: block;" />
 </div>
 
 <!-- LIMITATIONS -->
@@ -703,6 +717,18 @@
   <span class="footer-name">Kyle Krumm — Geospatial Analyst & Developer</span>
   <span class="footer-copy">2026</span>
 </footer>
-
+<script>
+  function openLightbox(src) {
+    const lb = document.getElementById('lightbox');
+    document.getElementById('lightbox-img').src = src;
+    lb.style.display = 'flex';
+  }
+  function closeLightbox() {
+    document.getElementById('lightbox').style.display = 'none';
+  }
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeLightbox();
+  });
+</script>
 </body>
 </html>
