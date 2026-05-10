@@ -110,11 +110,6 @@
       margin-bottom: 1.5rem;
     }
 
-    h1 em {
-      font-style: italic;
-      color: var(--ink-muted);
-    }
-
     .hero-desc {
       font-size: 15px;
       color: var(--ink-muted);
@@ -357,20 +352,72 @@
 
     .about-bio strong { color: var(--ink); font-weight: 500; }
 
-    .contact-row { display: flex; gap: 1rem; margin-top: 2rem; flex-wrap: wrap; }
+    .contact-row {
+      display: flex;
+      gap: 1rem;
+      margin-top: 2rem;
+      flex-wrap: wrap;
+    }
 
     .contact-link {
       font-family: var(--font-mono);
-      font-size: 12px;
+      font-size: 13px;
       color: var(--ink-muted);
       text-decoration: none;
-      border-bottom: 0.5px solid var(--ink-faint);
-      padding-bottom: 1px;
+      border: 0.5px solid var(--border-mid);
+      padding: 0.5rem 1rem;
+      border-radius: 2px;
       letter-spacing: 0.04em;
       transition: color 0.2s, border-color 0.2s;
     }
 
     .contact-link:hover { color: var(--accent); border-color: var(--accent); }
+
+    .archive {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 3rem;
+      border-top: 0.5px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .archive-left {}
+
+    .archive-label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+      margin-bottom: 0.5rem;
+    }
+
+    .archive-title {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      font-weight: 400;
+      color: var(--ink-muted);
+      transition: color 0.2s;
+    }
+
+    .archive-link {
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .archive-link:hover .archive-title { color: var(--ink); }
+
+    .archive-arrow {
+      font-size: 1.25rem;
+      color: var(--ink-faint);
+      transition: all 0.2s;
+    }
+
+    .archive-link:hover .archive-arrow { color: var(--ink); transform: translateX(4px); }
 
     footer {
       border-top: 0.5px solid var(--border);
@@ -393,6 +440,7 @@
   <ul class="nav-links">
     <li><a href="#work">Work</a></li>
     <li><a href="#about">About</a></li>
+    <li><a href="archive.html">Archive</a></li>
     <li><a href="mailto:kpkrumm@gmail.com">Contact</a></li>
     <li><a href="https://github.com/kpkrumm" target="_blank">GitHub</a></li>
   </ul>
@@ -400,9 +448,9 @@
 
 <section class="hero">
   <div class="hero-left">
-    <div class="hero-tag">Available for work</div>
-    <h1>Geospatial<br><em>Analyst &</em><br>Developer</h1>
-    <p class="hero-desc">GIS analyst and chemist building spatial tools at the intersection of environmental science, agriculture, and field operations.</p>
+    <div class="hero-tag">Open to opportunities</div>
+    <h1>Geospatial<br>Analyst &<br>Developer</h1>
+    <p class="hero-desc">GIS analyst and chemist applying spatial analysis to environmental, agricultural, and field operations problems.</p>
     <div class="cta-row">
       <button class="btn-primary" onclick="document.querySelector('#work').scrollIntoView({behavior:'smooth'})">View work</button>
       <button class="btn-ghost" onclick="document.querySelector('#about').scrollIntoView({behavior:'smooth'})">About me</button>
@@ -411,15 +459,19 @@
   <div class="hero-right">
     <div class="hero-stat">
       <div class="hero-stat-num">GIS</div>
-      <div class="hero-stat-label">Spatial analysis & cartography</div>
+      <div class="hero-stat-label">M.S. Geography, spatial analysis & cartography</div>
     </div>
     <div class="hero-stat">
       <div class="hero-stat-num">Chem</div>
-      <div class="hero-stat-label">B.S. Chemistry, field experience</div>
+      <div class="hero-stat-label">B.S. Chemistry, field & lab experience</div>
     </div>
     <div class="hero-stat">
-      <div class="hero-stat-num">CUI</div>
-      <div class="hero-stat-label">Military & construction support</div>
+      <div class="hero-stat-num">Dev</div>
+      <div class="hero-stat-label">Python, SQL, Git, HTML/CSS</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">Ops</div>
+      <div class="hero-stat-label">Project & field support, MILCON & construction</div>
     </div>
   </div>
 </section>
@@ -450,12 +502,12 @@
 
     <div class="project-card empty">
       <div class="empty-icon"><svg viewBox="0 0 14 14"><line x1="7" y1="2" x2="7" y2="12"/><line x1="2" y1="7" x2="12" y2="7"/></svg></div>
-      <span class="empty-label">Crop yield vs. soil chemistry</span>
+      <span class="empty-label">Nebraska nitrate & livestock density</span>
     </div>
 
     <div class="project-card empty">
       <div class="empty-icon"><svg viewBox="0 0 14 14"><line x1="7" y1="2" x2="7" y2="12"/><line x1="2" y1="7" x2="12" y2="7"/></svg></div>
-      <span class="empty-label">Groundwater nitrate mapping</span>
+      <span class="empty-label">Crop yield vs. soil chemistry</span>
     </div>
 
     <div class="project-card empty">
@@ -483,26 +535,38 @@
       <div class="skill-row"><span class="skill-name">QGIS / ArcGIS Pro</span><span class="skill-level">Advanced</span></div>
       <div class="skill-row"><span class="skill-name">Python (GeoPandas)</span><span class="skill-level">Proficient</span></div>
       <div class="skill-row"><span class="skill-name">Remote sensing</span><span class="skill-level">Proficient</span></div>
-      <div class="skill-row"><span class="skill-name">Leaflet / Mapbox GL</span><span class="skill-level">Learning</span></div>
-      <div class="skill-row"><span class="skill-name">SQL / PostGIS</span><span class="skill-level">Familiar</span></div>
+      <div class="skill-row"><span class="skill-name">SQL</span><span class="skill-level">Proficient</span></div>
+      <div class="skill-row"><span class="skill-name">Leaflet / Folium</span><span class="skill-level">Learning</span></div>
       <div class="skill-row"><span class="skill-name">Cartographic design</span><span class="skill-level">Advanced</span></div>
     </div>
   </div>
   <div class="about-right">
     <span class="section-label">About</span>
     <p class="about-bio" style="margin-top: 1.5rem;">
-      I'm a <strong>geospatial analyst and developer</strong> with a B.S. in Chemistry and experience supporting military and construction operations. I build spatial tools and analysis workflows at the intersection of environmental science and field operations.
+      I'm a <strong>geospatial analyst and developer</strong> with a B.S. in Chemistry and an M.S. in Geography. I build spatial analysis workflows incorporating environmental science, agriculture, and field operations.
     </p>
     <p class="about-bio">
       My work spans agricultural soil chemistry, satellite imagery processing, terrain analysis, and interactive web mapping. I'm currently seeking roles where geospatial and scientific thinking overlap.
     </p>
     <div class="contact-row">
       <a class="contact-link" href="mailto:kpkrumm@gmail.com">kpkrumm@gmail.com</a>
-      <a class="contact-link" href="https://github.com/kpkrumm" target="_blank">github.com/kpkrumm</a>
+      <a class="contact-link" href="https://linkedin.com/in/kyle-krumm-41063b104" target="_blank">LinkedIn</a>
+      <a class="contact-link" href="https://github.com/kpkrumm" target="_blank">GitHub</a>
       <a class="contact-link" href="#">Resume ↓</a>
     </div>
   </div>
 </section>
+
+<div class="archive">
+  <div class="archive-left">
+    <div class="archive-label">Past work</div>
+    <div class="archive-title">Academic & professional project archive</div>
+  </div>
+  <a href="archive.html" class="archive-link">
+    <span style="font-family: var(--font-mono); font-size: 11px; color: var(--ink-faint); letter-spacing: 0.06em;">View archive</span>
+    <span class="archive-arrow">→</span>
+  </a>
+</div>
 
 <footer>
   <span class="footer-name">Kyle Krumm — Geospatial Analyst & Developer</span>
