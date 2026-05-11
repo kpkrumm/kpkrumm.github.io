@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nebraska Nitrate & Livestock — Kyle Krumm</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #111110;
+      --bg-2: #1A1A18;
+      --bg-3: #222220;
+      --ink: #E8E6DF;
+      --ink-muted: #8A8880;
+      --ink-faint: #3D3D3A;
+      --accent: #7EB89A;
+      --accent-dim: #1E3028;
+      --border: rgba(232,230,223,0.08);
+      --border-mid: rgba(232,230,223,0.14);
+      --font-display: 'DM Serif Display', serif;
+      --font-body: 'DM Sans', sans-serif;
+      --font-mono: 'DM Mono', monospace;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--ink);
+      min-height: 100vh;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 3rem;
+      border-bottom: 0.5px solid var(--border);
+      position: sticky;
+      top: 0;
+      background: var(--bg);
+      z-index: 10;
+    }
+
+    .nav-name {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-weight: 400;
+      letter-spacing: 0.04em;
+      color: var(--ink);
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 13px;
+      color: var(--ink-muted);
+      text-decoration: none;
+      letter-spacing: 0.03em;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--ink); }
+
+    .project-hero {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 5rem 3rem 4rem;
+      border-bottom: 0.5px solid var(--border);
+    }
+
+    .breadcrumb {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      color: var(--ink-faint);
+      text-transform: uppercase;
+      margin-bottom: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .breadcrumb a {
+      color: var(--ink-faint);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .breadcrumb a:hover { color: var(--accent); }
+
+    .project-type {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .project-type::before {
+      content: '';
+      display: inline-block;
+      width: 20px;
+      height: 1px;
+      background: var(--accent);
+    }
+
+    .project-hero h1 {
+      font-family: var(--font-display);
+      font-size: 3rem;
+      line-height: 1.1;
+      font-weight: 400;
+      color: var(--ink);
+      margin-bottom: 0.75rem;
+      max-width: 680px;
+    }
+
+    .project-hero .subtitle {
+      font-size: 15px;
+      color: var(--ink-muted);
+      margin-bottom: 1.5rem;
+      max-width: 560px;
+      line-height: 1.6;
+    }
+
+    .project-hero-meta {
+      display: flex;
+      gap: 2.5rem;
+      margin-top: 2.5rem;
+      padding-top: 2rem;
+      border-top: 0.5px solid var(--border);
+      flex-wrap: wrap;
+    }
+
+    .meta-label {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+      margin-bottom: 0.35rem;
+    }
+
+    .meta-value {
+      font-size: 13px;
+      color: var(--ink-muted);
+    }
+
+    .meta-tags { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-top: 0.35rem; }
+
+    .tag {
+      font-size: 10px;
+      font-family: var(--font-mono);
+      color: var(--ink-muted);
+      border: 0.5px solid var(--border-mid);
+      padding: 2px 8px;
+      border-radius: 2px;
+    }
+
+    .hero-links {
+      display: flex;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .btn-primary {
+      background: var(--ink);
+      color: var(--bg);
+      border: none;
+      padding: 0.65rem 1.5rem;
+      font-family: var(--font-body);
+      font-size: 13px;
+      cursor: pointer;
+      letter-spacing: 0.03em;
+      transition: background 0.2s;
+      border-radius: 2px;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .btn-primary:hover { background: var(--accent); color: var(--bg); }
+
+    .btn-ghost {
+      background: none;
+      border: 0.5px solid var(--border-mid);
+      color: var(--ink-muted);
+      padding: 0.65rem 1.5rem;
+      font-family: var(--font-body);
+      font-size: 13px;
+      cursor: pointer;
+      letter-spacing: 0.03em;
+      transition: all 0.2s;
+      border-radius: 2px;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .btn-ghost:hover { border-color: var(--ink-muted); color: var(--ink); }
+
+    .content-section {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 4rem 3rem;
+      border-bottom: 0.5px solid var(--border);
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: 4rem;
+    }
+
+    .section-label {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink-muted);
+      padding-top: 0.35rem;
+    }
+
+    .section-body p {
+      font-size: 15px;
+      color: var(--ink-muted);
+      line-height: 1.8;
+      margin-bottom: 1.25rem;
+      max-width: 620px;
+    }
+
+    .section-body p strong { color: var(--ink); font-weight: 500; }
+    .section-body p:last-child { margin-bottom: 0; }
+
+    .stat-strip {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 3rem;
+      border-bottom: 0.5px solid var(--border);
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .stat-item {
+      padding: 0 2rem 0 0;
+      border-right: 0.5px solid var(--border);
+    }
+
+    .stat-item:first-child { padding-left: 0; }
+    .stat-item:last-child { border-right: none; padding-right: 0; }
+
+    .stat-num {
+      font-family: var(--font-display);
+      font-size: 2.25rem;
+      line-height: 1;
+      color: var(--ink);
+      margin-bottom: 0.35rem;
+    }
+
+    .stat-num.accent { color: var(--accent); }
+
+    .stat-label {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+      line-height: 1.4;
+    }
+
+    .findings-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5px;
+      background: var(--border);
+      border: 0.5px solid var(--border);
+      margin-top: 2rem;
+    }
+
+    .finding-card {
+      background: var(--bg);
+      padding: 1.75rem;
+    }
+
+    .finding-num {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      color: var(--accent);
+      margin-bottom: 0.75rem;
+    }
+
+    .finding-title {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-weight: 400;
+      color: var(--ink);
+      margin-bottom: 0.6rem;
+      line-height: 1.3;
+    }
+
+    .finding-body {
+      font-size: 13px;
+      color: var(--ink-muted);
+      line-height: 1.7;
+    }
+
+    .map-container {
+      margin-top: 2rem;
+      border: 0.5px solid var(--border);
+      border-radius: 2px;
+      overflow: hidden;
+      background: var(--bg-2);
+    }
+
+    .map-container iframe {
+      width: 100%;
+      height: 480px;
+      border: none;
+      display: block;
+    }
+
+    .map-caption {
+      padding: 0.75rem 1rem;
+      border-top: 0.5px solid var(--border);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--ink-muted);
+      letter-spacing: 0.04em;
+    }
+
+    .image-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5px;
+      background: var(--border);
+      border: 0.5px solid var(--border);
+      margin-top: 2rem;
+    }
+
+    .image-grid.single { grid-template-columns: 1fr; }
+
+    .image-item {
+      background: var(--bg-2);
+      overflow: hidden;
+      cursor: zoom-in;
+    }
+
+    .image-item img {
+      width: 100%;
+      height: 260px;
+      object-fit: cover;
+      display: block;
+      opacity: 0.9;
+      transition: opacity 0.3s;
+    }
+
+    .image-item img:hover { opacity: 1; }
+
+    .image-caption {
+      padding: 0.6rem 0.9rem;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--ink-muted);
+      letter-spacing: 0.04em;
+      border-top: 0.5px solid var(--border);
+    }
+
+    .stats-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1.5rem;
+      font-size: 13px;
+    }
+
+    .stats-table th {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+      text-align: left;
+      padding: 0.5rem 1rem 0.5rem 0;
+      border-bottom: 0.5px solid var(--border-mid);
+      font-weight: 400;
+    }
+
+    .stats-table td {
+      color: var(--ink-muted);
+      padding: 0.6rem 1rem 0.6rem 0;
+      border-bottom: 0.5px solid var(--border);
+      vertical-align: top;
+    }
+
+    .stats-table td.result {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--ink);
+    }
+
+    .stats-table td.sig {
+      color: var(--accent);
+      font-family: var(--font-mono);
+      font-size: 11px;
+    }
+
+    .limitations-list {
+      margin-top: 1.25rem;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .limitation-row {
+      display: flex;
+      gap: 1.5rem;
+      padding: 1rem 0;
+      border-bottom: 0.5px solid var(--border);
+      align-items: flex-start;
+    }
+
+    .limitation-row:first-child { border-top: 0.5px solid var(--border); }
+
+    .limitation-tag {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      white-space: nowrap;
+      padding-top: 0.15rem;
+      min-width: 90px;
+    }
+
+    .limitation-text {
+      font-size: 13px;
+      color: var(--ink-muted);
+      line-height: 1.7;
+      max-width: 520px;
+    }
+
+    .next-strip {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    .next-label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+      margin-bottom: 0.5rem;
+    }
+
+    .next-title {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      font-weight: 400;
+      color: var(--ink-muted);
+      transition: color 0.2s;
+    }
+
+    .next-link {
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .next-link:hover .next-title { color: var(--ink); }
+
+    .next-back-label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--ink-faint);
+      letter-spacing: 0.06em;
+      transition: color 0.2s;
+    }
+
+    .next-arrow {
+      font-size: 1.25rem;
+      color: var(--ink-faint);
+      transition: all 0.2s;
+    }
+
+    .next-link:hover .next-back-label,
+    .next-link:hover .next-arrow { color: var(--ink); }
+    .next-link:hover .next-arrow { transform: translateX(4px); }
+
+    footer {
+      border-top: 0.5px solid var(--border);
+      padding: 2rem 3rem;
+      max-width: 960px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-name { font-family: var(--font-mono); font-size: 11px; color: var(--ink-faint); letter-spacing: 0.06em; }
+    .footer-copy { font-family: var(--font-mono); font-size: 11px; color: var(--ink-faint); }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-name">Kyle Krumm</a>
+  <ul class="nav-links">
+    <li><a href="index.html#work">Work</a></li>
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="mailto:kpkrumm@gmail.com">Contact</a></li>
+    <li><a href="https://github.com/kpkrumm" target="_blank">GitHub</a></li>
+  </ul>
+</nav>
+
+<section class="project-hero">
+  <div class="breadcrumb">
+    <a href="index.html">Work</a>
+    <span>—</span>
+    <span>Nebraska Nitrate & Livestock</span>
+  </div>
+  <div class="project-type">Python · Spatial Analysis</div>
+  <h1>Mapping Nebraska's Nitrate</h1>
+  <p class="subtitle">A watershed-scale analysis of groundwater nitrate and livestock density across Nebraska</p>
+  <div class="hero-links">
+    <a href="nebraska_nitrate_interactive.html" target="_blank" class="btn-primary">View interactive map</a>
+    <a href="https://github.com/kpkrumm/nebraska-nitrate-analysis" target="_blank" class="btn-ghost">GitHub →</a>
+  </div>
+  <div class="project-hero-meta">
+    <div class="meta-item">
+      <div class="meta-label">Stack</div>
+      <div class="meta-tags">
+        <span class="tag">Python</span>
+        <span class="tag">GeoPandas</span>
+        <span class="tag">scipy</span>
+        <span class="tag">libpysal</span>
+        <span class="tag">mgwr</span>
+        <span class="tag">folium</span>
+        <span class="tag">matplotlib</span>
+      </div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label">Analysis</div>
+      <div class="meta-tags">
+        <span class="tag">Spatial autocorrelation</span>
+        <span class="tag">GWR</span>
+        <span class="tag">Regression</span>
+        <span class="tag">Bivariate choropleth</span>
+      </div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label">Published</div>
+      <div class="meta-value">May 2026</div>
+    </div>
+  </div>
+</section>
+
+<!-- MOTIVATIONS -->
+<section class="content-section">
+  <div class="section-label">Motivations</div>
+  <div class="section-body">
+    <p>
+      This project continues directly from the Nebraska soil analysis. The soil project established a chemical baseline -- what pH and organic matter look like across the state. This one asks a more pointed question: does livestock density drive groundwater nitrate levels, and if so, which livestock types matter most?
+    </p>
+    <p>
+      The public health stakes are real. Nebraska has some of the highest risk in the country for groundwater nitrate contamination, driven by high nitrogen inputs, irrigated crops, shallow groundwater depths, and sandy soils. Nearly 100% of rural Nebraskans rely on groundwater for drinking water, and the state's 23 Natural Resources Districts actively monitor nitrate levels across thousands of private wells. High nitrate in drinking water is linked to methemoglobinemia (blue baby syndrome) in infants and has been associated in early studies with elevated pediatric cancer rates. The EPA limit of 10 mg/L exists for a reason.
+    </p>
+    <p>
+      I'm interested in how human activity produces measurable environmental damage with downstream consequences for health and economy. Understanding which agricultural activities correlate most strongly with elevated nitrate -- at what scale, and where -- is a step toward knowing where mitigation efforts might have the most impact.
+    </p>
+  </div>
+</section>
+
+<!-- OVERVIEW -->
+<section class="content-section">
+  <div class="section-label">Overview</div>
+  <div class="section-body">
+    <p>
+      This project maps mean groundwater nitrate concentrations across Nebraska's HUC-8 watersheds using well sampling data from the Nebraska Groundwater Quality Clearinghouse, then tests whether watershed-level livestock density -- cattle, hogs, and poultry separately -- explains variation in those nitrate levels. The analysis spans 2015-2024 for nitrate and uses the 2022 USDA Census of Agriculture for livestock counts, chosen to bracket a common reference year.
+    </p>
+    <p>
+      HUC-8 subbasins were chosen as the spatial unit rather than counties because they are hydrologically meaningful -- nitrate moves through water and tends to accumulate within drainage basins, making watershed boundaries more appropriate than administrative ones for this question.
+    </p>
+  </div>
+</section>
+
+<!-- STAT STRIP -->
+<div class="stat-strip">
+  <div class="stat-item">
+    <div class="stat-num">18,658</div>
+    <div class="stat-label">Groundwater wells sampled</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">67</div>
+    <div class="stat-label">HUC-8 watersheds with nitrate data</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num accent">10</div>
+    <div class="stat-label">EPA maximum contaminant level, mg/L</div>
+  </div>
+</div>
+
+<!-- METHODS -->
+<section class="content-section">
+  <div class="section-label">Methods</div>
+  <div class="section-body">
+    <p>
+      Nitrate data came from the Nebraska Groundwater Quality Clearinghouse, a statewide database maintained by the Nebraska Department of Environment and Energy containing results from wells sampled by the state's 23 Natural Resources Districts. Records were filtered to Nitrate-N (ParamID 22, mg/L) and the 2015-2024 time window. The three-sheet database (Facility, Sample, Result) was joined on FacilityID and SampleID to link concentrations to well locations. Concentration values were averaged per well across the time window, then spatially joined to HUC-8 watersheds to produce a mean nitrate value per watershed.
+    </p>
+    <p>
+      HUC-8 watershed boundaries were loaded via pygeohydro from the USGS Watershed Boundary Dataset. Livestock counts came from the USDA NASS Quick Stats API, querying the 2022 Census of Agriculture at county resolution for cattle, hogs, broiler chickens, layer chickens, and turkeys. Poultry totals were constructed by summing the three poultry categories, as no single county-level inventory total is available. County counts were converted to density (head per square kilometer) and apportioned to watersheds using area-weighted overlay.
+    </p>
+    <p>
+      Statistical analysis included Pearson and Spearman correlation, OLS multiple regression, univariate and bivariate Moran's I spatial autocorrelation, threshold analysis comparing livestock density above and below the EPA limit, and Geographically Weighted Regression (GWR) to test whether the livestock-nitrate relationship varies across space.
+    </p>
+  </div>
+</section>
+
+<!-- MAP EMBED -->
+<div style="max-width: 960px; margin: 0 auto; padding: 0 3rem 4rem; border-bottom: 0.5px solid var(--border);">
+  <div class="map-container">
+    <iframe src="nebraska_nitrate_interactive.html" title="Interactive Nebraska Nitrate Map"></iframe>
+    <div class="map-caption">Interactive choropleth map of mean groundwater nitrate, cattle density, and hog density by HUC-8 watershed. Toggle layers and hover any watershed for values. Built with Folium / Leaflet.</div>
+  </div>
+</div>
+
+<!-- FINDINGS -->
+<section class="content-section">
+  <div class="section-label">Findings</div>
+  <div class="section-body">
+    <p>
+      Northeast Nebraska -- particularly the Ponca and Lower Niobrara watersheds -- showed the highest mean nitrate concentrations, several exceeding the EPA 10 mg/L limit. The Sandhills region in central Nebraska was consistently low, consistent with lower agricultural activity and the high organic matter observed in the soil analysis. Moran's I for nitrate was 0.31 (p = 0.001), indicating significant but moderate spatial clustering -- weaker than the pH clustering in the soil project, which makes sense given that nitrate is influenced by more localized factors like individual farm practices and aquifer characteristics.
+    </p>
+    <p>
+      Of the three livestock types, hogs showed the strongest and most consistent relationship with nitrate across every test. Cattle were expected to be the dominant driver given their prevalence across the state, but the results didn't support that. Cattle in Nebraska are predominantly range-fed across large areas, which likely dilutes their density signal at the watershed scale. Hog confinement operations, by contrast, concentrate waste at much higher densities per square kilometer. Poultry showed a moderate Spearman correlation but weaker spatial co-clustering, suggesting the relationship may be more statistical than geographic.
+    </p>
+    <p>
+      The GWR results were unexpected. The model's local R² was higher in western Nebraska than in the east -- the opposite of what intensive eastern agriculture would suggest. One interpretation is that in eastern Nebraska, multiple nitrate sources (fertilizer, crop residue, concentrated animal feeding operations) compete with and obscure the livestock density signal. In the west and center, where those other sources are less dominant, livestock density accounts for a larger share of whatever nitrate variation exists.
+    </p>
+    <div class="findings-grid">
+      <div class="finding-card">
+        <div class="finding-num">01</div>
+        <div class="finding-title">Northeast Nebraska exceeds EPA threshold</div>
+        <div class="finding-body">Ponca and Lower Niobrara watersheds show the highest mean nitrate in the state, both above 10 mg/L. The Sandhills region is consistently low. Moran's I = 0.31 (p = 0.001) confirms significant spatial clustering.</div>
+      </div>
+      <div class="finding-card">
+        <div class="finding-num">02</div>
+        <div class="finding-title">Hogs show the strongest relationship with nitrate</div>
+        <div class="finding-body">Spearman r = 0.489 (p &lt; 0.001). Bivariate Moran's I = 0.179 (p = 0.032). Mean hog density more than doubles in watersheds above the EPA threshold (22.83 vs 10.24 head/sq km). Cattle and poultry show weaker, less consistent results.</div>
+      </div>
+      <div class="finding-card">
+        <div class="finding-num">03</div>
+        <div class="finding-title">Livestock density alone is a weak predictor</div>
+        <div class="finding-body">OLS regression R² = 0.056, F p = 0.302 -- not significant overall. OLS assumptions are violated by non-normal residuals and spatial autocorrelation. GWR improves R² to 0.150 by allowing the relationship to vary spatially.</div>
+      </div>
+      <div class="finding-card">
+        <div class="finding-num">04</div>
+        <div class="finding-title">GWR explains more variance in western Nebraska</div>
+        <div class="finding-body">Local R² is higher in western and central watersheds than in the east. In eastern Nebraska, multiple competing nitrate sources likely dilute the livestock density signal. In the west, livestock density accounts for a larger share of what variation exists.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- IMAGES -->
+<div style="max-width: 960px; margin: 0 auto; padding: 0 3rem 4rem; border-bottom: 0.5px solid var(--border);">
+  <div class="image-grid">
+    <div class="image-item" onclick="openLightbox(this.querySelector('img').src)">
+      <img src="nebraska_nitrate_watershed.png" alt="Nitrate choropleth by HUC-8 watershed with EPA threshold hatching" />
+      <div class="image-caption">Mean groundwater nitrate by HUC-8 watershed, 2015-2024. Hatching indicates watersheds exceeding the EPA 10 mg/L limit.</div>
+    </div>
+    <div class="image-item" onclick="openLightbox(this.querySelector('img').src)">
+      <img src="nebraska_livestock_density.png" alt="Small multiples of cattle, hog, and poultry density by watershed" />
+      <div class="image-caption">Livestock density by HUC-8 watershed, 2022 Census of Agriculture. Cattle, hogs, and poultry shown separately.</div>
+    </div>
+  </div>
+  <div class="image-grid" style="margin-top: 1.5px;">
+    <div class="image-item" onclick="openLightbox(this.querySelector('img').src)">
+      <img src="nebraska_bivariate_choropleth.png" alt="Bivariate choropleth of nitrate and hog density" />
+      <div class="image-caption">Bivariate choropleth encoding mean nitrate and hog density simultaneously. Dark purple indicates high values in both variables.</div>
+    </div>
+    <div class="image-item" onclick="openLightbox(this.querySelector('img').src)">
+      <img src="nebraska_gwr_local_r2.png" alt="GWR local R-squared map" />
+      <div class="image-caption">GWR local R² by watershed. Green indicates stronger model fit; red indicates weaker. The livestock-nitrate relationship explains more variance in western Nebraska.</div>
+    </div>
+  </div>
+</div>
+
+<!-- STATISTICAL RESULTS -->
+<section class="content-section">
+  <div class="section-label">Results</div>
+  <div class="section-body">
+    <p>Key statistical results. Spearman correlation is reported alongside Pearson because livestock density distributions are heavily right-skewed, making Spearman more robust to the influence of high-density outlier watersheds.</p>
+    <table class="stats-table">
+      <thead>
+        <tr>
+          <th>Test</th>
+          <th>Variable</th>
+          <th>Result</th>
+          <th>p-value</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Moran's I</td>
+          <td>Nitrate</td>
+          <td class="result">I = 0.310</td>
+          <td class="sig">0.001</td>
+        </tr>
+        <tr>
+          <td>Moran's I</td>
+          <td>Cattle density</td>
+          <td class="result">I = 0.504</td>
+          <td class="sig">0.001</td>
+        </tr>
+        <tr>
+          <td>Moran's I</td>
+          <td>Hog density</td>
+          <td class="result">I = 0.323</td>
+          <td class="sig">0.002</td>
+        </tr>
+        <tr>
+          <td>Pearson correlation</td>
+          <td>Nitrate vs hogs</td>
+          <td class="result">r = 0.210</td>
+          <td class="sig">0.089</td>
+        </tr>
+        <tr>
+          <td>Spearman correlation</td>
+          <td>Nitrate vs cattle</td>
+          <td class="result">r = 0.272</td>
+          <td class="sig">0.026</td>
+        </tr>
+        <tr>
+          <td>Spearman correlation</td>
+          <td>Nitrate vs hogs</td>
+          <td class="result">r = 0.489</td>
+          <td class="sig">&lt;0.001</td>
+        </tr>
+        <tr>
+          <td>Spearman correlation</td>
+          <td>Nitrate vs poultry</td>
+          <td class="result">r = 0.391</td>
+          <td class="sig">0.001</td>
+        </tr>
+        <tr>
+          <td>OLS regression</td>
+          <td>Nitrate ~ all livestock</td>
+          <td class="result">R² = 0.056, F p = 0.302</td>
+          <td class="sig">0.302</td>
+        </tr>
+        <tr>
+          <td>GWR</td>
+          <td>Nitrate ~ all livestock</td>
+          <td class="result">R² = 0.150</td>
+          <td class="sig">—</td>
+        </tr>
+        <tr>
+          <td>Bivariate Moran's I</td>
+          <td>Nitrate vs hogs</td>
+          <td class="result">I = 0.179</td>
+          <td class="sig">0.032</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- LIMITATIONS -->
+<section class="content-section">
+  <div class="section-label">Limitations</div>
+  <div class="section-body">
+    <p>Several methodological constraints limit how far the findings can be extended and point toward areas requiring further study.</p>
+    <div class="limitations-list">
+      <div class="limitation-row">
+        <div class="limitation-tag">Spatial scale</div>
+        <div class="limitation-text">The findings apply at the watershed scale only. Aggregating nitrate to watershed averages and livestock to area-weighted county densities smooths over substantial local variation. A well located 50 meters from a hog confinement operation tells a very different story than the watershed mean. Further research at a finer geographic scale -- using farm-level operation locations rather than county-level census data -- would likely show stronger relationships, but that data was not available for this analysis.</div>
+      </div>
+      <div class="limitation-row">
+        <div class="limitation-tag">Livestock data</div>
+        <div class="limitation-text">USDA Census of Agriculture counts are reported at the county level and apportioned to watersheds by area, assuming uniform distribution within each county. Livestock operations in Nebraska are not uniformly distributed -- hog confinement facilities in particular tend to cluster in specific locations. This mismatch between the spatial resolution of livestock data and the actual distribution of operations likely weakens the observable relationship.</div>
+      </div>
+      <div class="limitation-row">
+        <div class="limitation-tag">Other drivers</div>
+        <div class="limitation-text">Livestock density explains a small fraction of nitrate variance at the watershed scale. Fertilizer application rates, crop type, irrigation intensity, soil permeability, aquifer depth, and precipitation all contribute to groundwater nitrate and are not accounted for in this analysis. The weak OLS results and the GWR pattern in eastern Nebraska both suggest these other factors are dominant in the most agriculturally intensive parts of the state.</div>
+      </div>
+      <div class="limitation-row">
+        <div class="limitation-tag">Regression assumptions</div>
+        <div class="limitation-text">OLS regression assumes normally distributed residuals and no spatial autocorrelation -- both assumptions are violated here. The Moran's I of 0.31 for nitrate and 0.50 for cattle density mean the data contains less independent information than 67 watersheds would imply, and the non-normal residuals (kurtosis 14.05) make significance tests unreliable. GWR partially addresses the spatial structure but the small sample size (67 watersheds, bandwidth of 64) limits how much local variation it can capture.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NEXT -->
+<div class="next-strip">
+  <div>
+    <div class="next-label">Previous project</div>
+    <div class="next-title">Mapping Nebraska's Soil</div>
+  </div>
+  <a href="nebraska-soil.html" class="next-link">
+    <span class="next-back-label">View project</span>
+    <span class="next-arrow">→</span>
+  </a>
+</div>
+
+<footer>
+  <span class="footer-name">Kyle Krumm — Geospatial Analyst & Developer</span>
+  <span class="footer-copy">2026</span>
+</footer>
+
+<!-- LIGHTBOX -->
+<div id="lightbox" onclick="closeLightbox()" style="
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.92);
+  z-index: 100;
+  align-items: center;
+  justify-content: center;
+  cursor: zoom-out;
+">
+  <img id="lightbox-img" src="" style="max-width: 92vw; max-height: 92vh; object-fit: contain; display: block;" />
+</div>
+
+<script>
+  function openLightbox(src) {
+    const lb = document.getElementById('lightbox');
+    document.getElementById('lightbox-img').src = src;
+    lb.style.display = 'flex';
+  }
+  function closeLightbox() {
+    document.getElementById('lightbox').style.display = 'none';
+  }
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeLightbox();
+  });
+</script>
+
+</body>
+</html>
