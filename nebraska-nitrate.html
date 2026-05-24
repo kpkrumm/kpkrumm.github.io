@@ -279,7 +279,7 @@
     }
 
     .map-container {
-      margin-top: 2rem;
+      margin-top: 0;
       border: 0.5px solid var(--border);
       border-radius: 2px;
       overflow: hidden;
@@ -373,6 +373,12 @@
 
     .stats-table td.sig {
       color: var(--accent);
+      font-family: var(--font-mono);
+      font-size: 11px;
+    }
+
+    .stats-table td.nonsig {
+      color: var(--ink-muted);
       font-family: var(--font-mono);
       font-size: 11px;
     }
@@ -536,15 +542,15 @@
 <section class="project-hero">
   <div class="breadcrumb">
     <a href="index.html">Work</a>
-    <span>—</span>
+    <span>&mdash;</span>
     <span>Nebraska Groundwater Nitrate</span>
   </div>
-  <div class="project-type">Python · Spatial Analysis</div>
-  <h1>Nebraska Groundwater Nitrate & Livestock Density</h1>
+  <div class="project-type">Python &middot; Spatial Analysis</div>
+  <h1>Nebraska Groundwater Nitrate &amp; Livestock Density</h1>
   <p class="subtitle">A watershed-scale analysis of groundwater nitrate and livestock density across Nebraska</p>
   <div class="hero-links">
     <a href="nebraska_nitrate_interactive.html" target="_blank" class="btn-primary">View interactive map</a>
-    <a href="https://github.com/kpkrumm/nebraska-nitrate-analysis" target="_blank" class="btn-ghost">GitHub →</a>
+    <a href="https://github.com/kpkrumm/nebraska-nitrate-analysis" target="_blank" class="btn-ghost">GitHub &rarr;</a>
   </div>
   <div class="project-hero-meta">
     <div class="meta-item">
@@ -587,13 +593,13 @@
   <div class="section-label">Motivations</div>
   <div class="section-body">
     <p>
-      This project continues directly from the Nebraska soil analysis. The soil project established a chemical baseline -- what pH and organic matter look like across the state. This one asks a more pointed question: does livestock density drive groundwater nitrate levels, and if so, which livestock types matter most?
+      This project continues directly from the Nebraska soil analysis. The soil project established a chemical baseline, what pH and organic matter look like across the state. This one asks a more pointed question: does raising livestock affect groundwater nitrate levels, and if so, which livestock types have the strongest impact?
     </p>
     <p>
-      The public health stakes are real. Nebraska has some of the highest risk in the country for groundwater nitrate contamination, driven by high nitrogen inputs, irrigated crops, shallow groundwater depths, and sandy soils. Nearly 100% of rural Nebraskans rely on groundwater for drinking water, and the state's 23 Natural Resources Districts actively monitor nitrate levels across thousands of private wells. High nitrate in drinking water is linked to methemoglobinemia (blue baby syndrome) in infants and has been associated in early studies with elevated pediatric cancer rates. The EPA limit of 10 mg/L exists for a reason. (Conservation Nebraska, 2022)
+      Groundwater contamination is a greater concern in Nebraska than in much of the country, due to shallow groundwater depths and sandy soils that allow contaminants to move quickly through the soil profile. Nitrate in particular is a concern, driven by high nitrogen inputs from fertilizer and crop irrigation across the state. Almost all rural Nebraskans rely on groundwater for drinking water, and the state's 23 Natural Resources Districts actively monitor nitrate levels across thousands of private wells. High nitrate in drinking water is linked to blood disorders in infants and has been associated in early studies with elevated pediatric cancer rates. The EPA has set a maximum contaminant level of 10 mg/L for nitrate in drinking water due to these human health concerns. (Conservation Nebraska, 2022)
     </p>
     <p>
-      I'm interested in how human activity produces measurable environmental damage with downstream consequences for health and economy. Understanding which agricultural activities correlate most strongly with elevated nitrate -- at what scale, and where -- is a step toward knowing where mitigation efforts might have the most impact.
+      I'm interested in how human activity produces measurable environmental damage with downstream consequences for health and economy. Understanding which agricultural activities influence nitrate levels and where these influences are felt strongest can help identify where and how steps might be taken to address the problem.
     </p>
   </div>
 </section>
@@ -603,10 +609,10 @@
   <div class="section-label">Overview</div>
   <div class="section-body">
     <p>
-      This project maps mean groundwater nitrate concentrations across Nebraska's watersheds using well sampling data from the Nebraska Groundwater Quality Clearinghouse, then tests whether watershed-level livestock density -- cattle, hogs, and poultry separately -- explains variation in those nitrate levels. The analysis spans 2015-2024 for nitrate and uses the 2022 USDA Census of Agriculture for livestock counts, chosen to bracket a common reference year.
+      This project maps mean groundwater nitrate concentrations across Nebraska's watersheds using well sampling data from the Nebraska Groundwater Quality Clearinghouse, then tests whether watershed-level livestock density, cattle, hogs, and poultry separately, explains variation in those nitrate levels. The analysis spans 2015-2024 for nitrate and uses the 2022 USDA Census of Agriculture for livestock counts. The nitrate time window was chosen so that the 2022 livestock census year falls within the sampling period, making the comparison more defensible than using all available historical data.
     </p>
     <p>
-      Watersheds -- specifically HUC-8 subbasins, the USGS standard unit for mid-scale drainage area delineation -- were chosen as the spatial unit rather than counties because they are hydrologically meaningful. Nitrate moves through water and tends to accumulate within drainage basins, making watershed boundaries more appropriate than administrative ones for this question. Nebraska has 71 HUC-8 watersheds, 67 of which contained at least one sampled well.
+      Watersheds were chosen as the spatial unit rather than counties because they are hydrologically meaningful. Nitrate is a water-soluble ionic compound that tends to accumulate within drainage basins, making watershed boundaries more appropriate than administrative ones for this question. The analysis uses HUC-8 subbasins, the USGS standard unit for mid-scale drainage area delineation. Nebraska has 71 HUC-8 watersheds, 67 of which contained at least one sampled well.
     </p>
   </div>
 </section>
@@ -616,31 +622,37 @@
   <div class="section-label">Methods</div>
   <div class="section-body">
     <p>
-      Nitrate data came from the Nebraska Groundwater Quality Clearinghouse, a statewide database maintained by the Nebraska Department of Environment and Energy containing results from wells sampled by the state's 23 Natural Resources Districts. Records were filtered to Nitrate-N (ParamID 22, mg/L) and the 2015-2024 time window. The three-sheet database (Facility, Sample, Result) was joined on FacilityID and SampleID to link concentrations to well locations. Concentration values were averaged per well across the time window, then spatially joined to watersheds to produce a mean nitrate value per watershed.
+      Nitrate data came from the Nebraska Groundwater Quality Clearinghouse, a statewide database maintained by the Nebraska Department of Environment and Energy containing results from wells sampled by the state's 23 Natural Resources Districts. Records were filtered to nitrate as nitrogen (mg/L) and the 2015-2024 time window. The Clearinghouse stores data across three linked tables: well locations, sample events, and lab results. These were joined to link each concentration measurement to a geographic location. Concentration values were averaged per well across the time window, then spatially joined to watersheds to produce a mean nitrate value per watershed.
     </p>
     <p>
-      Watershed boundaries were loaded via pygeohydro from the USGS Watershed Boundary Dataset. Livestock counts came from the USDA NASS Quick Stats API, querying the 2022 Census of Agriculture at county resolution for cattle, hogs, broiler chickens, layer chickens, and turkeys. Poultry totals were constructed by summing the three poultry categories, as no single county-level inventory total is available. County counts were converted to density (head per square kilometer) and apportioned to watersheds using area-weighted overlay.
+      Watershed boundaries were loaded via pygeohydro from the USGS Watershed Boundary Dataset. Livestock counts came from the USDA NASS Quick Stats API, querying the 2022 Census of Agriculture at county resolution for cattle, hogs, broiler chickens, layer chickens, and turkeys. Poultry totals were constructed by summing the three poultry categories, as no single county-level inventory total is available. County counts were converted to density in head per square kilometer, then apportioned to watersheds using area-weighted overlay. Each watershed received a weighted average of the densities of the counties it overlaps, proportional to how much of the watershed's area falls within each county.
     </p>
     <p>
-      Statistical analysis included Pearson and Spearman correlation, OLS multiple regression, univariate and bivariate Moran's I spatial autocorrelation, threshold analysis comparing livestock density above and below the EPA limit, and Geographically Weighted Regression (GWR) to test whether the livestock-nitrate relationship varies across space.
+      Statistical analysis included Pearson and Spearman correlation, OLS multiple regression, univariate and bivariate Moran's I spatial autocorrelation, threshold analysis comparing livestock density in watersheds above and below the EPA limit, and Geographically Weighted Regression (GWR) to test whether the livestock-nitrate relationship varies across space.
     </p>
   </div>
 </section>
 
-<!-- MAP EMBED -->
-<div style="max-width: 960px; margin: 0 auto; padding: 0 3rem 4rem; border-bottom: 0.5px solid var(--border);">
-  <div class="map-container">
-    <iframe src="nebraska_nitrate_interactive.html" title="Interactive Nebraska Nitrate Map"></iframe>
-    <div class="map-caption">Interactive choropleth map of mean groundwater nitrate, cattle density, and hog density by watershed. Toggle layers and hover any watershed for values. Built with Folium / Leaflet.</div>
+<!-- INTERACTIVE MAP -->
+<section class="content-section">
+  <div class="section-label">Interactive Map</div>
+  <div class="section-body">
+    <div class="map-container">
+      <iframe src="nebraska_nitrate_interactive.html" title="Interactive Nebraska Nitrate Map"></iframe>
+      <div class="map-caption">Interactive choropleth map of mean groundwater nitrate, cattle density, and hog density by watershed. Toggle layers and hover any watershed for values. Built with Folium / Leaflet.</div>
+    </div>
   </div>
-</div>
+</section>
 
 <!-- FINDINGS -->
 <section class="content-section">
   <div class="section-label">Findings</div>
   <div class="section-body">
     <p>
-      Northeast Nebraska -- particularly the Ponca and Lower Niobrara watersheds -- showed the highest mean nitrate concentrations, several exceeding the EPA 10 mg/L limit. The Sandhills region in central Nebraska was consistently low, consistent with lower agricultural activity and the high organic matter observed in the soil analysis. Moran's I for nitrate was 0.31 (p = 0.001), indicating significant but moderate spatial clustering -- weaker than the pH clustering in the soil project, which makes sense given that nitrate is influenced by more localized factors like individual farm practices and aquifer characteristics.
+      Note that while several patterns are described below, none of the threshold t-tests reached statistical significance. The mean differences observed between watershed groups are suggestive but should not be interpreted as confirmed causal relationships at this scale.
+    </p>
+    <p>
+      Northeastern Nebraska, particularly the Ponca and Lower Niobrara watersheds, showed the highest mean nitrate concentrations, several exceeding the EPA 10 mg/L limit. The Sandhills region in central Nebraska was consistently low, consistent with lower agricultural activity and the high organic matter observed in the soil analysis. Moran's I for nitrate was 0.31 (p = 0.001), indicating significant but moderate spatial clustering. Similar nitrate values tend to occur near each other geographically, meaning the northeastern pattern is coherent rather than random, but the clustering is weaker than the pH gradient seen in the soil project. Nitrate is influenced by more localized factors like individual farm practices and aquifer characteristics, which likely dampens the clustering signal.
     </p>
 
     <!-- NITRATE MAP -->
@@ -654,7 +666,7 @@
     </div>
 
     <p>
-      Of the three livestock types, hogs showed the strongest and most consistent relationship with nitrate across every test. Cattle were expected to be the dominant driver given their prevalence across the state, but the results did not support that. Cattle in Nebraska are predominantly range-fed across large areas, which likely dilutes their density signal at the watershed scale. Hog confinement operations, by contrast, concentrate waste at much higher densities per square kilometer. Poultry showed a moderate Spearman correlation but weaker spatial co-clustering, suggesting the relationship may be more statistical than geographic.
+      Of the three livestock types, hogs showed the strongest and most consistent relationship with nitrate across every test. Cattle were expected to be the dominant driver given their prevalence across the state, but the results did not support that. Cattle in Nebraska are predominantly range-fed across large areas, which likely dilutes their impact at the watershed scale. Hog confinement operations, by contrast, concentrate waste at much higher densities per square kilometer. Poultry showed a moderate Spearman correlation but no significant spatial co-clustering with nitrate, suggesting the statistical relationship is not strongly reflected in geography.
     </p>
 
     <!-- LIVESTOCK MAPS -->
@@ -668,42 +680,48 @@
     </div>
 
     <p>
-      The GWR results were unexpected. The model's local R² was higher in western Nebraska than in the east -- the opposite of what intensive eastern agriculture would suggest. One interpretation is that in eastern Nebraska, multiple nitrate sources (fertilizer, crop residue, concentrated animal feeding operations) compete with and obscure the livestock density signal. In the west and center, where those other sources are less dominant, livestock density accounts for a larger share of whatever nitrate variation exists.
+      The GWR results were unexpected. The model's local R&sup2; was higher in western Nebraska than in the east, the opposite of what intensive eastern agriculture would suggest. One interpretation is that in eastern Nebraska, multiple nitrate sources (fertilizer, crop residue, concentrated animal feeding operations) compete with and obscure the livestock density signal. In the west and center, where those other sources are less dominant, livestock density accounts for a larger share of whatever nitrate variation exists.
     </p>
+
+    <!-- GWR MAP -->
+    <div style="max-width: 620px; margin: 2rem 0;">
+      <div class="image-grid single">
+        <div class="image-item" onclick="openLightbox(this.querySelector('img').src)">
+          <img src="nebraska_gwr_local_r2.png" alt="GWR local R-squared map" />
+          <div class="image-caption">GWR local R&sup2; by watershed. Green indicates stronger model fit; red indicates weaker.</div>
+        </div>
+      </div>
+    </div>
 
     <div class="findings-grid">
       <div class="finding-card">
         <div class="finding-num">01</div>
-        <div class="finding-title">Northeast Nebraska exceeds EPA threshold</div>
-        <div class="finding-body">Ponca and Lower Niobrara watersheds show the highest mean nitrate in the state, both above 10 mg/L. The Sandhills region is consistently low. Moran's I = 0.31 (p = 0.001) confirms significant spatial clustering.</div>
+        <div class="finding-title">Northeastern Nebraska watersheds exceed EPA threshold</div>
+        <div class="finding-body">Ponca and Lower Niobrara watersheds show the highest mean nitrate in the state, both above 10 mg/L. The Sandhills region is consistently low. Similar nitrate values cluster geographically (Moran's I = 0.31, p = 0.001), meaning the northeastern pattern reflects a coherent spatial trend rather than isolated readings.</div>
       </div>
       <div class="finding-card">
         <div class="finding-num">02</div>
         <div class="finding-title">Hogs show the strongest relationship with nitrate</div>
-        <div class="finding-body">Spearman r = 0.489 (p &lt; 0.001). Bivariate Moran's I = 0.179 (p = 0.032). Mean hog density more than doubles in watersheds above the EPA threshold (22.83 vs 10.24 head/sq km). Cattle and poultry show weaker, less consistent results.</div>
+        <div class="finding-body">Spearman r = 0.489 (p &lt; 0.001). Bivariate Moran's I = 0.179 (p = 0.032). Mean hog density is more than double in watersheds above the EPA threshold (22.83 vs 10.24 head/sq km), though this difference did not reach statistical significance (p = 0.109). Cattle and poultry show weaker, less consistent results across all tests.</div>
       </div>
       <div class="finding-card">
         <div class="finding-num">03</div>
         <div class="finding-title">Livestock density alone is a weak predictor</div>
-        <div class="finding-body">OLS regression R² = 0.056, F p = 0.302 -- not significant overall. OLS assumptions are violated by non-normal residuals and spatial autocorrelation. GWR improves R² to 0.150 by allowing the relationship to vary spatially.</div>
+        <div class="finding-body">OLS regression was not significant overall (R&sup2; = 0.056, p = 0.302). The model's assumptions of normally distributed residuals and no spatial autocorrelation are both violated, limiting its reliability. GWR improves R&sup2; to 0.150 by allowing the relationship between livestock density and nitrate to vary by location, revealing where the model fits better and where it does not.</div>
       </div>
       <div class="finding-card">
         <div class="finding-num">04</div>
         <div class="finding-title">GWR explains more variance in western Nebraska</div>
-        <div class="finding-body">Local R² is higher in western and central watersheds than in the east. In eastern Nebraska, multiple competing nitrate sources likely dilute the livestock density signal. In the west, livestock density accounts for a larger share of what variation exists.</div>
+        <div class="finding-body">Local R&sup2; is higher in western and central watersheds than in the east. In eastern Nebraska, multiple competing nitrate sources likely dilute the livestock density signal. In the west, livestock density accounts for a larger share of the nitrate variation.</div>
       </div>
     </div>
 
-    <!-- BIVARIATE + GWR MAPS -->
+    <!-- BIVARIATE MAP -->
     <div style="max-width: 620px; margin: 2rem 0;">
-      <div class="image-grid">
+      <div class="image-grid single">
         <div class="image-item" onclick="openLightbox(this.querySelector('img').src)">
           <img src="nebraska_bivariate_choropleth.png" alt="Bivariate choropleth of nitrate and hog density" />
           <div class="image-caption">Bivariate choropleth encoding mean nitrate and hog density simultaneously. Dark purple indicates high values in both variables.</div>
-        </div>
-        <div class="image-item" onclick="openLightbox(this.querySelector('img').src)">
-          <img src="nebraska_gwr_local_r2.png" alt="GWR local R-squared map" />
-          <div class="image-caption">GWR local R² by watershed. Green indicates stronger model fit; red indicates weaker.</div>
         </div>
       </div>
     </div>
@@ -745,10 +763,28 @@
           <td class="sig">0.002</td>
         </tr>
         <tr>
+          <td>Moran's I</td>
+          <td>Poultry density</td>
+          <td class="result">I = 0.315</td>
+          <td class="sig">0.002</td>
+        </tr>
+        <tr>
+          <td>Pearson correlation</td>
+          <td>Nitrate vs cattle</td>
+          <td class="result">r = 0.180</td>
+          <td class="nonsig">0.145</td>
+        </tr>
+        <tr>
           <td>Pearson correlation</td>
           <td>Nitrate vs hogs</td>
           <td class="result">r = 0.210</td>
-          <td class="sig">0.089</td>
+          <td class="nonsig">0.089</td>
+        </tr>
+        <tr>
+          <td>Pearson correlation</td>
+          <td>Nitrate vs poultry</td>
+          <td class="result">r = 0.092</td>
+          <td class="nonsig">0.458</td>
         </tr>
         <tr>
           <td>Spearman correlation</td>
@@ -771,20 +807,50 @@
         <tr>
           <td>OLS regression</td>
           <td>Nitrate ~ all livestock</td>
-          <td class="result">R² = 0.056, F p = 0.302</td>
-          <td class="sig">0.302</td>
+          <td class="result">R&sup2; = 0.056</td>
+          <td class="nonsig">0.302</td>
         </tr>
         <tr>
           <td>GWR</td>
           <td>Nitrate ~ all livestock</td>
-          <td class="result">R² = 0.150</td>
-          <td class="sig">—</td>
+          <td class="result">R&sup2; = 0.150</td>
+          <td class="nonsig">&mdash;</td>
+        </tr>
+        <tr>
+          <td>Bivariate Moran's I</td>
+          <td>Nitrate vs cattle</td>
+          <td class="result">I = 0.098</td>
+          <td class="nonsig">0.104</td>
         </tr>
         <tr>
           <td>Bivariate Moran's I</td>
           <td>Nitrate vs hogs</td>
           <td class="result">I = 0.179</td>
           <td class="sig">0.032</td>
+        </tr>
+        <tr>
+          <td>Bivariate Moran's I</td>
+          <td>Nitrate vs poultry</td>
+          <td class="result">I = 0.058</td>
+          <td class="nonsig">0.161</td>
+        </tr>
+        <tr>
+          <td>Threshold t-test</td>
+          <td>Cattle density, above vs below EPA limit</td>
+          <td class="result">31.71 vs 27.69 head/sq km</td>
+          <td class="nonsig">0.435</td>
+        </tr>
+        <tr>
+          <td>Threshold t-test</td>
+          <td>Hog density, above vs below EPA limit</td>
+          <td class="result">22.83 vs 10.24 head/sq km</td>
+          <td class="nonsig">0.109</td>
+        </tr>
+        <tr>
+          <td>Threshold t-test</td>
+          <td>Poultry density, above vs below EPA limit</td>
+          <td class="result">153.33 vs 49.32 head/sq km</td>
+          <td class="nonsig">0.216</td>
         </tr>
       </tbody>
     </table>
@@ -799,11 +865,11 @@
     <div class="limitations-list">
       <div class="limitation-row">
         <div class="limitation-tag">Spatial scale</div>
-        <div class="limitation-text">The findings apply at the watershed scale only. Aggregating nitrate to watershed averages and livestock to area-weighted county densities smooths over substantial local variation. A well located 50 meters from a hog confinement operation tells a very different story than the watershed mean. Further research at a finer geographic scale -- using farm-level operation locations rather than county-level census data -- would likely show stronger relationships, but that data was not available for this analysis.</div>
+        <div class="limitation-text">The findings apply at the watershed scale only. Aggregating nitrate to watershed averages and livestock to area-weighted county densities smooths over substantial local variation. A well located 50 meters from a hog confinement operation tells a very different story than the watershed mean. Further research at a finer geographic scale, using farm-level operation locations rather than county-level census data, would likely show stronger relationships, but that data was not available for this analysis.</div>
       </div>
       <div class="limitation-row">
         <div class="limitation-tag">Livestock data</div>
-        <div class="limitation-text">USDA Census of Agriculture counts are reported at the county level and apportioned to watersheds by area, assuming uniform distribution within each county. Livestock operations in Nebraska are not uniformly distributed -- hog confinement facilities in particular tend to cluster in specific locations. This mismatch between the spatial resolution of livestock data and the actual distribution of operations likely weakens the observable relationship.</div>
+        <div class="limitation-text">USDA Census of Agriculture counts are reported at the county level and apportioned to watersheds by area, assuming uniform distribution within each county. Livestock operations in Nebraska are not uniformly distributed. Hog confinement facilities in particular tend to cluster in specific locations. This mismatch between the spatial resolution of livestock data and the actual distribution of operations likely weakens the observable relationship.</div>
       </div>
       <div class="limitation-row">
         <div class="limitation-tag">Other drivers</div>
@@ -811,7 +877,7 @@
       </div>
       <div class="limitation-row">
         <div class="limitation-tag">Regression</div>
-        <div class="limitation-text">OLS regression assumes normally distributed residuals and no spatial autocorrelation -- both assumptions are violated here. The Moran's I of 0.31 for nitrate and 0.50 for cattle density mean the data contains less independent information than 67 watersheds would imply, and the non-normal residuals (kurtosis 14.05) make significance tests unreliable. GWR partially addresses the spatial structure but the small sample size (67 watersheds, bandwidth of 64) limits how much local variation it can capture.</div>
+        <div class="limitation-text">OLS regression assumes normally distributed residuals and no spatial autocorrelation. Both assumptions are violated here. Moran's I values of 0.31 for nitrate and 0.50 for cattle density mean the data contains less independent information than 67 watersheds would imply, and the heavily non-normal residuals make significance tests unreliable. GWR partially addresses the spatial structure but the small sample size limits how much local variation it can capture.</div>
       </div>
     </div>
   </div>
@@ -846,7 +912,7 @@
   </div>
 </section>
 
-<!-- NEXT -->
+<!-- PREVIOUS -->
 <div class="next-strip">
   <div>
     <div class="next-label">Previous project</div>
@@ -854,12 +920,12 @@
   </div>
   <a href="nebraska-soil.html" class="next-link">
     <span class="next-back-label">View project</span>
-    <span class="next-arrow">→</span>
+    <span class="next-arrow">&rarr;</span>
   </a>
 </div>
 
 <footer>
-  <span class="footer-name">Kyle Krumm — Geospatial Analyst & Developer</span>
+  <span class="footer-name">Kyle Krumm &mdash; Geospatial Analyst &amp; Developer</span>
   <span class="footer-copy">2026</span>
 </footer>
 
