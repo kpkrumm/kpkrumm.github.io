@@ -313,7 +313,7 @@
     }
 
     .map-container {
-      margin-top: 2rem;
+      margin-top: 0;
       border: 0.5px solid var(--border);
       border-radius: 2px;
       overflow: hidden;
@@ -578,7 +578,7 @@
   <p class="subtitle">A statistical analysis of pH and organic matter across 92 counties</p>
   <div class="hero-links">
     <a href="nebraska_soil_interactive.html" target="_blank" class="btn-primary">View interactive map</a>
-    <a href="https://github.com/kpkrumm/nebraska-soil-analysis" target="_blank" class="btn-ghost">GitHub →</a>
+    <a href="https://github.com/kpkrumm/nebraska-soil-analysis" target="_blank" class="btn-ghost">GitHub &rarr;</a>
   </div>
   <div class="project-hero-meta">
     <div class="meta-item">
@@ -680,14 +680,6 @@
   </div>
 </section>
 
-<!-- MAP EMBED -->
-<div style="max-width: 960px; margin: 0 auto; padding: 0 3rem 4rem; border-bottom: 0.5px solid var(--border);">
-  <div class="map-container">
-    <iframe src="nebraska_soil_interactive.html" title="Interactive Nebraska Soil Chemistry Map"></iframe>
-    <div class="map-caption">Interactive choropleth map of average soil pH and organic matter %, hover any county for more info. Built with Folium / Leaflet.</div>
-  </div>
-</div>
-
 <!-- FINDINGS -->
 <section class="content-section">
   <div class="section-label">Findings</div>
@@ -734,13 +726,24 @@
       <div class="finding-card">
         <div class="finding-num">03</div>
         <div class="finding-title">Weak pH-OM correlation</div>
-        <div class="finding-body">Borderline significant, weak correlation. Pearson r = -0.20 (p = 0.056). An R² of 0.04 indicates that pH explains only around 4% of OM variance at the county level. The relationship exists in the expected direction, but other factors are driving most of the variation.</div>
+        <div class="finding-body">Borderline significant, weak correlation. Pearson r = -0.20 (p = 0.056). An R&sup2; of 0.04 indicates that pH explains only around 4% of OM variance at the county level. The relationship exists in the expected direction, but other factors are driving most of the variation.</div>
       </div>
       <div class="finding-card">
         <div class="finding-num">04</div>
         <div class="finding-title">Strong spatial clustering in both variables</div>
         <div class="finding-body">Moran's I: pH = 0.78, OM = 0.55 (both p = 0.001). Neighboring counties tend to have similar values, meaning the data contains less truly independent information than 92 observations would suggest. Standard significance tests do not account for this and should be interpreted with caution.</div>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- INTERACTIVE MAP -->
+<section class="content-section">
+  <div class="section-label">Interactive Map</div>
+  <div class="section-body">
+    <div class="map-container">
+      <iframe src="nebraska_soil_interactive.html" title="Interactive Nebraska Soil Chemistry Map"></iframe>
+      <div class="map-caption">Interactive choropleth map of average soil pH and organic matter %, hover any county for more info. Built with Folium / Leaflet.</div>
     </div>
   </div>
 </section>
@@ -768,7 +771,7 @@
         <tr>
           <td>Linear regression</td>
           <td>OM ~ pH</td>
-          <td class="result">slope = -0.91, R² = 0.04</td>
+          <td class="result">slope = -0.91, R&sup2; = 0.04</td>
           <td class="sig">0.056</td>
         </tr>
         <tr>
@@ -867,16 +870,16 @@
 <div class="next-strip">
   <div>
     <div class="next-label">Next project</div>
-    <div class="next-title">Nebraska Groundwater Nitrate & Livestock Density</div>
+    <div class="next-title">Nebraska Groundwater Nitrate &amp; Livestock Density</div>
   </div>
   <a href="nebraska-nitrate.html" class="next-link">
     <span class="next-back-label">View project</span>
-    <span class="next-arrow">→</span>
+    <span class="next-arrow">&rarr;</span>
   </a>
 </div>
 
 <footer>
-  <span class="footer-name">Kyle Krumm — Geospatial Analyst & Developer</span>
+  <span class="footer-name">Kyle Krumm &mdash; Geospatial Analyst &amp; Developer</span>
   <span class="footer-copy">2026</span>
 </footer>
 
