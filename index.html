@@ -319,6 +319,25 @@
 
     .project-card:hover .project-arrow { color: var(--ink); transform: translate(3px, -3px); }
 
+    .project-card-img {
+      margin: 0.75rem 0 1rem;
+      border: 0.5px solid var(--border);
+      overflow: hidden;
+      border-radius: 2px;
+    }
+
+    .project-card-img img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+      opacity: 0.85;
+      transition: opacity 0.3s;
+    }
+
+    .project-card:hover .project-card-img img { opacity: 1; }
+
     .about {
       max-width: 960px;
       margin: 0 auto;
@@ -487,6 +506,9 @@
       <div>
         <div class="project-type">Python · Spatial Analysis</div>
         <div class="project-title">Nebraska Soil pH and Organic Matter</div>
+        <div class="project-card-img">
+          <img src="nebraska_soil_ph_om.png" alt="Soil pH and organic matter choropleth maps" />
+        </div>
         <div class="project-desc">County-level analysis of soil chemistry across Nebraska using USDA SSURGO data. Weighted averages, spatial autocorrelation, ANOVA, and an interactive choropleth map.</div>
       </div>
       <div class="project-footer">
@@ -504,6 +526,9 @@
       <div>
         <div class="project-type">Python · Spatial Analysis</div>
         <div class="project-title">Nebraska Groundwater and Livestock</div>
+        <div class="project-card-img">
+          <img src="nebraska_nitrate_watershed.png" alt="Groundwater nitrate choropleth by watershed" />
+        </div>
         <div class="project-desc">Watershed-scale analysis of groundwater nitrate and livestock density across Nebraska using well sampling data and USDA Census of Agriculture. Correlation, spatial autocorrelation, OLS regression, GWR, and an interactive choropleth map.</div>
       </div>
       <div class="project-footer">
