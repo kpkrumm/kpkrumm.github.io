@@ -326,6 +326,10 @@
       border-radius: 2px;
     }
 
+    .project-card-img {
+      position: relative;
+    }
+
     .project-card-img img {
       width: 100%;
       height: 160px;
@@ -333,10 +337,37 @@
       object-position: center;
       display: block;
       opacity: 0.85;
-      transition: height 0.35s ease, opacity 0.3s;
+      transition: opacity 0.3s;
     }
 
-    .project-card:hover .project-card-img img { opacity: 1; height: 280px; }
+    .project-card:hover .project-card-img img { opacity: 1; }
+
+    .project-card-img .img-hint {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--ink-faint);
+      letter-spacing: 0.06em;
+      margin-top: 0.4rem;
+    }
+
+    .img-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.88);
+      z-index: 200;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+    }
+
+    .img-overlay img {
+      max-width: 80vw;
+      max-height: 80vh;
+      object-fit: contain;
+      display: block;
+      border: 0.5px solid var(--border-mid);
+    }
 
     .about {
       max-width: 960px;
@@ -506,8 +537,9 @@
       <div>
         <div class="project-type">Python · Spatial Analysis</div>
         <div class="project-title">Nebraska Soil pH and Organic Matter</div>
-        <div class="project-card-img">
+        <div class="project-card-img" data-overlay="nebraska_soil_ph_om.png">
           <img src="nebraska_soil_ph_om.png" alt="Soil pH and organic matter choropleth maps" />
+          <div class="img-hint">Hover to preview</div>
         </div>
         <div class="project-desc">County-level analysis of soil chemistry across Nebraska using USDA SSURGO data. Weighted averages, spatial autocorrelation, ANOVA, and an interactive choropleth map.</div>
       </div>
@@ -526,8 +558,9 @@
       <div>
         <div class="project-type">Python · Spatial Analysis</div>
         <div class="project-title">Nebraska Groundwater and Livestock</div>
-        <div class="project-card-img">
+        <div class="project-card-img" data-overlay="nebraska_nitrate_watershed.png">
           <img src="nebraska_nitrate_watershed.png" alt="Groundwater nitrate choropleth by watershed" />
+          <div class="img-hint">Hover to preview</div>
         </div>
         <div class="project-desc">Watershed-scale analysis of groundwater nitrate and livestock density across Nebraska using well sampling data and USDA Census of Agriculture. Correlation, spatial autocorrelation, OLS regression, GWR, and an interactive choropleth map.</div>
       </div>
@@ -609,6 +642,25 @@
   <span class="footer-name">Kyle Krumm — Geospatial Analyst & Developer</span>
   <span class="footer-copy">2026</span>
 </footer>
+
+<div class="img-overlay" id="img-overlay">
+  <img id="overlay-img" src="" alt="" />
+</div>
+
+<script>
+  const overlay = document.getElementById('img-overlay');
+  const overlayImg = document.getElementById('overlay-img');
+
+  document.querySelectorAll('.project-card-img').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      overlayImg.src = el.dataset.overlay;
+      overlay.style.display = 'flex';
+    });
+    el.addEventListener('mouseleave', () => {
+      overlay.style.display = 'none';
+    });
+  });
+</script>
 
 </body>
 </html>
