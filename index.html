@@ -658,15 +658,18 @@
   const overlay = document.getElementById('img-overlay');
   const overlayImg = document.getElementById('overlay-img');
 
+  let hideTimeout = null;
+
   document.querySelectorAll('.project-card-img').forEach(el => {
     el.addEventListener('mouseenter', () => {
+      if (hideTimeout) { clearTimeout(hideTimeout); hideTimeout = null; }
       overlayImg.src = el.dataset.overlay;
       overlay.style.display = 'flex';
       requestAnimationFrame(() => overlay.classList.add('visible'));
     });
     el.addEventListener('mouseleave', () => {
       overlay.classList.remove('visible');
-      setTimeout(() => { overlay.style.display = 'none'; }, 250);
+      hideTimeout = setTimeout(() => { overlay.style.display = 'none'; hideTimeout = null; }, 250);
     });
   });
 </script>
